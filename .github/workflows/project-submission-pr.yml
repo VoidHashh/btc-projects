@@ -1,0 +1,114 @@
+name: Project Submission PR
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+      - labeled
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: project-submission-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  prepare-project-pr:
+    if: contains(github.event.issue.labels.*.name, 'nuevo-proyecto')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build project entry from issue
+        id: project
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_CREATED_AT: ${{ github.event.issue.created_at }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: node scripts/create-project-entry-from-issue.mjs
+
+      - name: Create or update review PR
+        id: cpr
+        if: steps.project.outputs.status == 'success'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/project-issue-${{ github.event.issue.number }}
+          delete-branch: true
+          commit-message: Add project from issue #${{ github.event.issue.number }}
+          title: Add project from issue #${{ github.event.issue.number }}: ${{ steps.project.outputs.project_name }}
+          body: |
+            ## Resumen
+            - Issue original: #${{ github.event.issue.number }}
+            - Proyecto: ${{ steps.project.outputs.project_name }}
+            - Enviado por: @${{ github.event.issue.user.login }}
+            - Método: ${{ steps.project.outputs.submission_method }}
+
+            Esta PR fue generada automáticamente desde el issue y necesita revisión antes del merge.
+
+            Closes #${{ github.event.issue.number }}
+
+      - name: Upsert issue status comment
+        if: always() && steps.project.outputs.status != ''
+        uses: actions/github-script@v7
+        env:
+          STATUS: ${{ steps.project.outputs.status }}
+          MESSAGE: ${{ steps.project.outputs.message }}
+          PR_URL: ${{ steps.cpr.outputs.pull-request-url }}
+          CPR_OUTCOME: ${{ steps.cpr.outcome }}
+        with:
+          script: |
+            const marker = '<!-- auto-project-submission-status -->';
+            const status = process.env.STATUS || 'invalid';
+            const message = process.env.MESSAGE || 'No se pudo procesar el issue.';
+            const prUrl = process.env.PR_URL || '';
+            const cprOutcome = process.env.CPR_OUTCOME || '';
+
+            let body = `${marker}\n`;
+
+            if (status === 'success' && cprOutcome === 'failure') {
+              body += `He podido preparar los datos, pero la PR automática falló al crearse.\n\n${message}`;
+            } else if (status === 'success') {
+              body += prUrl
+                ? `He preparado una PR para revisión: ${prUrl}\n\n${message}`
+                : `He actualizado la rama automática para este envío. Revisa la PR asociada cuando aparezca.\n\n${message}`;
+            } else if (status === 'duplicate') {
+              body += `No he creado una PR nueva porque el proyecto parece duplicado.\n\n${message}`;
+            } else {
+              body += `No he podido generar la PR todavía.\n\n${message}`;
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              ...context.repo,
+              issue_number: context.issue.number,
+              per_page: 100
+            });
+
+            const existing = comments.find(comment =>
+              comment.user?.login === 'github-actions[bot]' && comment.body?.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: existing.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body
+              });
+            }

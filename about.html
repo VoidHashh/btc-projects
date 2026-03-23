@@ -59,7 +59,8 @@
       <ul>
         <li>Cualquiera puede enviar un proyecto a través del formulario de envío.</li>
         <li>Los envíos llegan como Issues a GitHub, donde se revisan manualmente para mantener la calidad.</li>
-        <li>Una vez aprobado, el proyecto se añade al archivo <code style="font-family:var(--font-display);font-size:12px;color:var(--accent);">data/projects.json</code> en el repositorio.</li>
+        <li>Cada envío genera automáticamente una Pull Request para revisión, sin publicar nada directamente en la rama principal.</li>
+        <li>Una vez aprobada esa PR, el proyecto queda añadido al archivo <code style="font-family:var(--font-display);font-size:12px;color:var(--accent);">data/projects.json</code> en el repositorio.</li>
         <li>Los datos son totalmente abiertos y accesibles en GitHub — transparencia total.</li>
         <li>No hay backend, no hay base de datos. Todo es un fichero JSON estático.</li>
       </ul>

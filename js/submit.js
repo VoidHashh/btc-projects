@@ -5,12 +5,12 @@ const GH_TOKEN = atob("Z2l0aHViX3BhdF8xMUFCVlNPSkEwNU53S1RLMUhia0UyX1dVQmF3dFpNb
 const MODE_UI = {
   github: {
     button: "Abrir en GitHub →",
-    note: "Se abrirá GitHub con el issue listo para publicarlo desde tu cuenta.",
+    note: "Se abrirá GitHub con el issue listo. Después se generará una PR para revisión.",
     help: "Quedará vinculado a tu usuario."
   },
   anonymous: {
     button: "Enviar proyecto →",
-    note: "Crearemos el issue desde la web y lo revisaremos manualmente.",
+    note: "Crearemos el issue desde la web. Después se generará una PR para revisión.",
     help: "Úsalo si no tienes GitHub."
   }
 };
@@ -284,7 +284,7 @@ function initForm() {
         openGitHubIssue(payload);
         submitBtn.disabled = false;
         updateSubmissionModeUI();
-        setFormNote("GitHub ya está abierto con el issue preparado. Solo falta publicarlo.");
+        setFormNote("GitHub ya está abierto con el issue preparado. Cuando lo publiques, se generará una PR para revisión.");
         return;
       }
 
