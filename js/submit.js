@@ -1,10 +1,21 @@
-/* ===== DIRECTORIO BTC — submit.js ===== */
+/* ===== DIRECTORIO BTC - submit.js ===== */
 
 const REPO = "VoidHashh/btc-projects";
 const GH_TOKEN = atob("Z2l0aHViX3BhdF8xMUFCVlNPSkEwNU53S1RLMUhia0UyX1dVQmF3dFpNb1gxTFpIUmZ6QjZEQmd0dG9IQ3hGRHBGRUE3TEozN3NSN2VRNlAyV0E2QWVLajBOajJy");
+const MODE_UI = {
+  github: {
+    button: "Continuar en GitHub →",
+    note: "Abriremos GitHub con el issue pre-rellenado y quedará asociado a tu usuario cuando lo publiques.",
+    help: "Recomendado si quieres que la propuesta quede asociada a tu perfil de GitHub."
+  },
+  anonymous: {
+    button: "Enviar proyecto →",
+    note: "El envío se revisa manualmente antes de añadirse al directorio. No hace falta cuenta de GitHub.",
+    help: "Si no tienes cuenta, usaremos el token del proyecto para crear el issue por ti."
+  }
+};
 
-/* ===== CREATE GITHUB ISSUE VIA API ===== */
-async function createIssue(data) {
+function buildIssuePayload(data) {
   const title = `[Nuevo proyecto] ${data.name}`;
   const body =
 `## Datos del proyecto
@@ -13,12 +24,20 @@ async function createIssue(data) {
 - **URL:** ${data.url}
 - **Descripción:** ${data.description}
 - **Categoría:** ${data.category}
-- **GitHub:** ${data.github || 'N/A'}
-- **Autor:** ${data.author || 'N/A'}
-- **Gratuito:** ${data.free ? 'Sí' : 'No'}
-- **Open Source:** ${data.openSource ? 'Sí' : 'No'}
+- **GitHub:** ${data.github || "N/A"}
+- **Autor:** ${data.author || "N/A"}
+- **Gratuito:** ${data.free ? "Sí" : "No"}
+- **Open Source:** ${data.openSource ? "Sí" : "No"}
 - **Idioma:** ${data.language}
+- **Método de envío:** ${data.submissionMode === "github" ? "Cuenta de GitHub" : "Formulario web sin cuenta"}
 `;
+
+  return { title, body };
+}
+
+/* ===== CREATE GITHUB ISSUE VIA API ===== */
+async function createIssue(data) {
+  const { title, body } = buildIssuePayload(data);
   const res = await fetch(`https://api.github.com/repos/${REPO}/issues`, {
     method: "POST",
     headers: {
@@ -29,22 +48,49 @@ async function createIssue(data) {
     },
     body: JSON.stringify({ title, body, labels: ["nuevo-proyecto"] })
   });
+
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.message || `Error ${res.status}`);
   }
+
   return res.json();
+}
+
+function buildGitHubIssueURL(data) {
+  const { title, body } = buildIssuePayload(data);
+  const params = new URLSearchParams({
+    title,
+    body,
+    labels: "nuevo-proyecto"
+  });
+  return `https://github.com/${REPO}/issues/new?${params.toString()}`;
+}
+
+function openGitHubIssue(data) {
+  const issueURL = buildGitHubIssueURL(data);
+  const popup = window.open(issueURL, "_blank", "noopener");
+
+  if (!popup) {
+    window.location.href = issueURL;
+  }
 }
 
 /* ===== VALIDATE URL ===== */
 function isValidURL(str) {
-  try { new URL(str); return true; } catch { return false; }
+  try {
+    new URL(str);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /* ===== SHOW ERROR ===== */
 function showError(fieldId, msg) {
   const field = document.getElementById(fieldId);
   if (!field) return;
+
   field.style.borderColor = "#ef4444";
   const existing = field.parentNode.querySelector(".field-error");
   if (!existing) {
@@ -63,6 +109,45 @@ function clearErrors() {
   });
 }
 
+function setFormNote(message, variant = "default") {
+  const note = document.getElementById("form-note");
+  if (!note) return;
+
+  if (variant === "error") {
+    note.textContent = `Error: ${message}`;
+    note.style.background = "rgba(239,68,68,0.1)";
+    note.style.borderColor = "rgba(239,68,68,0.3)";
+    return;
+  }
+
+  note.textContent = `ℹ️ ${message}`;
+  note.style.background = "rgba(247,147,26,0.1)";
+  note.style.borderColor = "rgba(247,147,26,0.2)";
+}
+
+function getSubmissionMode() {
+  return document.querySelector('input[name="submit-mode"]:checked')?.value || "github";
+}
+
+function updateSubmissionModeUI() {
+  const mode = getSubmissionMode();
+  const copy = MODE_UI[mode] || MODE_UI.github;
+  const submitBtn = document.querySelector("#submit-form button[type=submit]");
+  const help = document.getElementById("mode-help");
+
+  if (submitBtn && !submitBtn.disabled) {
+    submitBtn.textContent = copy.button;
+  }
+  if (help) {
+    help.textContent = copy.help;
+  }
+  document.querySelectorAll(".mode-option").forEach(option => {
+    const input = option.querySelector('input[name="submit-mode"]');
+    option.classList.toggle("is-selected", Boolean(input?.checked));
+  });
+  setFormNote(copy.note);
+}
+
 /* ===== COPY TO CLIPBOARD ===== */
 function initCopyButtons() {
   document.querySelectorAll(".btn-copy[data-copy]").forEach(btn => {
@@ -71,7 +156,6 @@ function initCopyButtons() {
       try {
         await navigator.clipboard.writeText(text);
       } catch {
-        // Fallback
         const ta = document.createElement("textarea");
         ta.value = text;
         ta.style.position = "fixed";
@@ -81,6 +165,7 @@ function initCopyButtons() {
         document.execCommand("copy");
         document.body.removeChild(ta);
       }
+
       const original = btn.textContent;
       btn.textContent = "¡Copiado!";
       btn.classList.add("copied");
@@ -100,6 +185,7 @@ function openModal() {
     document.getElementById("modal-close")?.focus();
   }
 }
+
 function closeModal() {
   document.getElementById("donate-modal")?.classList.remove("open");
 }
@@ -109,6 +195,7 @@ function initCharCounter() {
   const desc = document.getElementById("proj-desc");
   const counter = document.getElementById("desc-count");
   if (!desc || !counter) return;
+
   desc.addEventListener("input", () => {
     const len = desc.value.length;
     counter.textContent = `${len} / 300`;
@@ -121,6 +208,7 @@ function initHamburger() {
   const btn = document.getElementById("hamburger");
   const menu = document.getElementById("mobile-menu");
   if (!btn || !menu) return;
+
   btn.addEventListener("click", () => {
     const isOpen = menu.classList.toggle("open");
     btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
@@ -135,6 +223,7 @@ function initForm() {
   form.addEventListener("submit", async e => {
     e.preventDefault();
     clearErrors();
+    updateSubmissionModeUI();
 
     const name = document.getElementById("proj-name").value.trim();
     const url = document.getElementById("proj-url").value.trim();
@@ -145,41 +234,91 @@ function initForm() {
     const lang = document.getElementById("proj-lang").value;
     const free = document.getElementById("proj-free").checked;
     const oss = document.getElementById("proj-oss").checked;
+    const submissionMode = getSubmissionMode();
 
     let valid = true;
-    if (!name) { showError("proj-name", "El nombre es obligatorio."); valid = false; }
-    if (!url) { showError("proj-url", "La URL es obligatoria."); valid = false; }
-    else if (!isValidURL(url)) { showError("proj-url", "Introduce una URL válida (con https://)."); valid = false; }
-    if (!desc) { showError("proj-desc", "La descripción es obligatoria."); valid = false; }
-    if (!cat) { showError("proj-cat", "Selecciona una categoría."); valid = false; }
-    if (github && !isValidURL(github)) { showError("proj-github", "Introduce una URL de GitHub válida."); valid = false; }
+    if (!name) {
+      showError("proj-name", "El nombre es obligatorio.");
+      valid = false;
+    }
+    if (!url) {
+      showError("proj-url", "La URL es obligatoria.");
+      valid = false;
+    } else if (!isValidURL(url)) {
+      showError("proj-url", "Introduce una URL válida (con https://).");
+      valid = false;
+    }
+    if (!desc) {
+      showError("proj-desc", "La descripción es obligatoria.");
+      valid = false;
+    }
+    if (!cat) {
+      showError("proj-cat", "Selecciona una categoría.");
+      valid = false;
+    }
+    if (github && !isValidURL(github)) {
+      showError("proj-github", "Introduce una URL de GitHub válida.");
+      valid = false;
+    }
     if (!valid) return;
 
     const submitBtn = form.querySelector("button[type=submit]");
-    submitBtn.textContent = "Enviando...";
+    submitBtn.textContent = submissionMode === "github" ? "Abriendo GitHub..." : "Enviando...";
     submitBtn.disabled = true;
 
     try {
-      await createIssue({ name, url, description: desc, category: cat, github, author, free, openSource: oss, language: lang });
+      const payload = {
+        name,
+        url,
+        description: desc,
+        category: cat,
+        github,
+        author,
+        free,
+        openSource: oss,
+        language: lang,
+        submissionMode
+      };
+
+      if (submissionMode === "github") {
+        openGitHubIssue(payload);
+        submitBtn.disabled = false;
+        updateSubmissionModeUI();
+        setFormNote("GitHub se abrió con el issue pre-rellenado. Publícalo allí para completar el envío.");
+        return;
+      }
+
+      await createIssue(payload);
       form.reset();
+      document.getElementById("desc-count").textContent = "0 / 300";
+      document.getElementById("desc-count").classList.remove("warn");
       submitBtn.textContent = "¡Enviado! ✓";
+
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        updateSubmissionModeUI();
+      }, 1200);
+
       setTimeout(openModal, 300);
     } catch (err) {
-      submitBtn.textContent = "Enviar proyecto →";
       submitBtn.disabled = false;
-      const note = form.querySelector(".form-note");
-      if (note) {
-        note.style.background = "rgba(239,68,68,0.1)";
-        note.style.borderColor = "rgba(239,68,68,0.3)";
-        note.textContent = "Error al enviar: " + err.message + ". Inténtalo de nuevo.";
-      }
+      updateSubmissionModeUI();
+      setFormNote("Error al enviar: " + err.message + ". Inténtalo de nuevo.", "error");
     }
   });
+}
+
+function initSubmissionMode() {
+  document.querySelectorAll('input[name="submit-mode"]').forEach(input => {
+    input.addEventListener("change", updateSubmissionModeUI);
+  });
+  updateSubmissionModeUI();
 }
 
 /* ===== INIT ===== */
 document.addEventListener("DOMContentLoaded", () => {
   initForm();
+  initSubmissionMode();
   initCharCounter();
   initCopyButtons();
   initHamburger();
