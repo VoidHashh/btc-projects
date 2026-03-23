@@ -13,7 +13,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260323b">
 </head>
 <body>
 
@@ -113,31 +113,31 @@
         </div>
 
         <div class="form-group">
-          <div class="submit-mode-panel">
-            <div class="submit-mode-header">
-              <span class="group-label">Cómo quieres enviarlo</span>
-              <p class="mode-help" id="mode-help">Con GitHub quedará vinculado a tu usuario.</p>
-            </div>
-            <div class="submission-mode" id="submission-mode">
-              <label class="mode-option">
-                <input type="radio" name="submit-mode" value="github" checked>
-                <span class="mode-indicator" aria-hidden="true"></span>
-                <span class="mode-copy">
+          <div class="submit-mode-header">
+            <span class="group-label">Método de envío</span>
+            <p class="mode-help" id="mode-help">Con GitHub quedará vinculado a tu usuario.</p>
+          </div>
+          <div class="submission-mode" id="submission-mode">
+            <label class="mode-option">
+              <input type="radio" name="submit-mode" value="github" checked>
+              <span class="mode-copy">
+                <span class="mode-title-row">
                   <span class="mode-title">Con mi GitHub</span>
-                  <span class="mode-description">Abrir el issue en GitHub y publicarlo desde mi cuenta.</span>
+                  <span class="mode-tag">Recomendado</span>
                 </span>
-                <span class="mode-badge">Recomendado</span>
-              </label>
-              <label class="mode-option">
-                <input type="radio" name="submit-mode" value="anonymous">
-                <span class="mode-indicator" aria-hidden="true"></span>
-                <span class="mode-copy">
+                <span class="mode-description">Abrir el issue en GitHub desde mi cuenta.</span>
+              </span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="submit-mode" value="anonymous">
+              <span class="mode-copy">
+                <span class="mode-title-row">
                   <span class="mode-title">Sin cuenta</span>
-                  <span class="mode-description">Crear el issue desde la web.</span>
+                  <span class="mode-tag mode-tag-muted">Rápido</span>
                 </span>
-                <span class="mode-badge mode-badge-muted">Rápido</span>
-              </label>
-            </div>
+                <span class="mode-description">Crear el issue desde la web.</span>
+              </span>
+            </label>
           </div>
         </div>
 
@@ -180,6 +180,6 @@
     </div>
   </div>
 
-  <script src="js/submit.js"></script>
+  <script src="js/submit.js?v=20260323b"></script>
 </body>
 </html>
