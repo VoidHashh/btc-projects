@@ -5,7 +5,11 @@
     "description": "Comparador interactivo de hardware wallets de Bitcoin. Filtros avanzados, comparativas lado a lado y datos actualizados semanalmente desde los repositorios oficiales de cada fabricante.",
     "url": "https://matheybtc.github.io/MatheyBTC-HW-list/",
     "category": "hardware-wallets",
-    "tags": ["open-source", "comparador", "hardware"],
+    "tags": [
+      "open-source",
+      "comparador",
+      "hardware"
+    ],
     "author": "MatheyBTC",
     "language": "es",
     "free": true,
@@ -19,7 +23,11 @@
     "description": "Portal de recursos y herramientas para el ecosistema Bitcoin descentralizado. Información curada sobre nodos, wallets, privacidad y soberanía financiera.",
     "url": "https://btc.descentraliza.es",
     "category": "educacion",
-    "tags": ["recursos", "descentralización", "comunidad"],
+    "tags": [
+      "recursos",
+      "descentralización",
+      "comunidad"
+    ],
     "author": "Descentraliza",
     "language": "es",
     "free": true,
@@ -33,7 +41,12 @@
     "description": "Escáner de privacidad Bitcoin. Analiza transacciones y UTXOs para detectar vulnerabilidades de privacidad en tus operaciones. 100% client-side, sin tracking, open source.",
     "url": "https://am-i.exposed/",
     "category": "privacidad",
-    "tags": ["open-source", "privacidad", "análisis", "utxo"],
+    "tags": [
+      "open-source",
+      "privacidad",
+      "análisis",
+      "utxo"
+    ],
     "author": "Copexit & Arkad",
     "language": "en",
     "free": true,
@@ -47,11 +60,30 @@
     "description": "Índice de riesgo on-chain de Bitcoin en vivo. Combina 5 métricas fundamentales (MVRV, NUPL, SOPR, Puell Multiple, RHODL) en un indicador único de 0 a 100. Referencia en español para análisis de ciclos.",
     "url": "https://criptoath.com/metricas/",
     "category": "metricas-analytics",
-    "tags": ["on-chain", "métricas", "análisis", "ciclos"],
+    "tags": [
+      "on-chain",
+      "métricas",
+      "análisis",
+      "ciclos"
+    ],
     "author": "CriptoATH / Iván López",
     "language": "es",
     "free": true,
     "open_source": false,
+    "github": "",
+    "date_added": "2026-03-23"
+  },
+  {
+    "id": "005",
+    "name": "NostrFacil",
+    "description": "Tu guía para entender Nostr",
+    "url": "https://nostrfacil.com/",
+    "category": "educacion",
+    "tags": [],
+    "author": "",
+    "language": "es",
+    "free": true,
+    "open_source": true,
     "github": "",
     "date_added": "2026-03-23"
   }
