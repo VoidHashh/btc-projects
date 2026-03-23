@@ -627,11 +627,12 @@ footer a:hover { color: var(--accent); }
 }
 .group-label {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 10px;
-  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
 }
 .form-group label .req { color: var(--accent); }
 
@@ -674,6 +675,21 @@ footer a:hover { color: var(--accent); }
 }
 .form-group select option { background: var(--bg-card); color: var(--text-primary); }
 
+.submit-mode-panel {
+  margin-top: 4px;
+  padding: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 147, 26, 0.1), transparent 42%),
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+    var(--bg-card);
+  border: 1px solid rgba(247, 147, 26, 0.16);
+  border-radius: var(--radius-lg);
+}
+
+.submit-mode-header {
+  margin-bottom: 12px;
+}
+
 .submission-mode {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -681,39 +697,92 @@ footer a:hover { color: var(--accent); }
 }
 
 .mode-option {
-  display: flex !important;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 14px;
-  background: var(--bg-card);
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 18px 1fr auto;
+  align-items: start;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 14px;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s, background 0.2s;
   margin-bottom: 0 !important;
+  overflow: hidden;
+}
+
+.mode-option::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.08), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
 }
 
 .mode-option:hover {
   border-color: var(--border-hover);
   transform: translateY(-1px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
 }
 
 .mode-option.is-selected,
 .mode-option:has(input:checked) {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+  box-shadow: 0 0 0 3px var(--accent-soft), 0 10px 30px rgba(247, 147, 26, 0.08);
+}
+
+.mode-option.is-selected::before,
+.mode-option:has(input:checked)::before {
+  opacity: 1;
 }
 
 .mode-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mode-indicator {
+  position: relative;
+  width: 18px;
+  height: 18px;
   margin-top: 2px;
-  accent-color: var(--accent);
-  cursor: pointer;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-hover);
+  background: rgba(255,255,255,0.02);
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.mode-indicator::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 999px;
+  background: var(--accent);
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+
+.mode-option.is-selected .mode-indicator,
+.mode-option:has(input:checked) .mode-indicator {
+  border-color: var(--accent);
+  background: rgba(247, 147, 26, 0.08);
+  transform: scale(1.04);
+}
+
+.mode-option.is-selected .mode-indicator::after,
+.mode-option:has(input:checked) .mode-indicator::after {
+  transform: scale(1);
 }
 
 .mode-copy {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .mode-title {
@@ -725,12 +794,31 @@ footer a:hover { color: var(--accent); }
 
 .mode-description {
   color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.mode-badge {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: #000;
+  background: var(--accent);
+  align-self: start;
+  white-space: nowrap;
+}
+
+.mode-badge-muted {
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
 }
 
 .mode-help {
-  margin-top: 10px;
+  margin-top: 0;
   color: var(--text-muted);
   font-size: 12px;
   line-height: 1.5;
@@ -995,6 +1083,16 @@ footer a:hover { color: var(--accent); }
   }
 
   .submission-mode { grid-template-columns: 1fr; }
+
+  .mode-option {
+    grid-template-columns: 18px 1fr;
+  }
+
+  .mode-badge {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: 2px;
+  }
 
   .form-row { grid-template-columns: 1fr; }
 

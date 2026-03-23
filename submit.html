@@ -42,34 +42,13 @@
   <!-- PAGE HEADER -->
   <div class="page-header">
     <h1>Enviar un <span class="accent">proyecto</span></h1>
-    <p>¿Conoces un proyecto BTC/blockchain que debería estar aquí? Envíalo y lo revisaremos. Si tienes GitHub, podrás abrir el Issue con tu cuenta. Si no, lo enviaremos por ti.</p>
+    <p>Envíalo para revisión. Si tienes GitHub, lo abrirás desde tu cuenta. Si no, lo enviaremos por ti.</p>
   </div>
 
   <!-- FORM -->
   <div class="page-content">
     <div class="form-wrap">
       <form id="submit-form" novalidate>
-
-        <div class="form-group">
-          <span class="group-label">¿Tienes cuenta de GitHub? <span class="req">*</span></span>
-          <div class="submission-mode" id="submission-mode">
-            <label class="mode-option">
-              <input type="radio" name="submit-mode" value="github" checked>
-              <span class="mode-copy">
-                <span class="mode-title">Sí, usar mi cuenta</span>
-                <span class="mode-description">Abriremos GitHub con el issue ya relleno para que lo publiques desde tu usuario.</span>
-              </span>
-            </label>
-            <label class="mode-option">
-              <input type="radio" name="submit-mode" value="anonymous">
-              <span class="mode-copy">
-                <span class="mode-title">No, enviar sin cuenta</span>
-                <span class="mode-description">Usaremos el flujo actual para crear el issue desde la web.</span>
-              </span>
-            </label>
-          </div>
-          <p class="mode-help" id="mode-help">Recomendado si quieres que la propuesta quede asociada a tu perfil de GitHub.</p>
-        </div>
 
         <div class="form-group">
           <label for="proj-name">Nombre del proyecto <span class="req">*</span></label>
@@ -133,8 +112,37 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <div class="submit-mode-panel">
+            <div class="submit-mode-header">
+              <span class="group-label">Cómo quieres enviarlo</span>
+              <p class="mode-help" id="mode-help">Con GitHub quedará vinculado a tu usuario.</p>
+            </div>
+            <div class="submission-mode" id="submission-mode">
+              <label class="mode-option">
+                <input type="radio" name="submit-mode" value="github" checked>
+                <span class="mode-indicator" aria-hidden="true"></span>
+                <span class="mode-copy">
+                  <span class="mode-title">Con mi GitHub</span>
+                  <span class="mode-description">Abrir el issue en GitHub y publicarlo desde mi cuenta.</span>
+                </span>
+                <span class="mode-badge">Recomendado</span>
+              </label>
+              <label class="mode-option">
+                <input type="radio" name="submit-mode" value="anonymous">
+                <span class="mode-indicator" aria-hidden="true"></span>
+                <span class="mode-copy">
+                  <span class="mode-title">Sin cuenta</span>
+                  <span class="mode-description">Crear el issue desde la web.</span>
+                </span>
+                <span class="mode-badge mode-badge-muted">Rápido</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
         <div class="form-note" id="form-note">
-          ℹ️ Abriremos GitHub con el issue pre-rellenado y quedará asociado a tu usuario cuando lo publiques.
+          ℹ️ Se abrirá GitHub con el issue listo para publicarlo desde tu cuenta.
         </div>
 
         <button type="submit" class="btn-primary">Enviar proyecto →</button>

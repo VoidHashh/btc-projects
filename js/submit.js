@@ -4,14 +4,14 @@ const REPO = "VoidHashh/btc-projects";
 const GH_TOKEN = atob("Z2l0aHViX3BhdF8xMUFCVlNPSkEwNU53S1RLMUhia0UyX1dVQmF3dFpNb1gxTFpIUmZ6QjZEQmd0dG9IQ3hGRHBGRUE3TEozN3NSN2VRNlAyV0E2QWVLajBOajJy");
 const MODE_UI = {
   github: {
-    button: "Continuar en GitHub →",
-    note: "Abriremos GitHub con el issue pre-rellenado y quedará asociado a tu usuario cuando lo publiques.",
-    help: "Recomendado si quieres que la propuesta quede asociada a tu perfil de GitHub."
+    button: "Abrir en GitHub →",
+    note: "Se abrirá GitHub con el issue listo para publicarlo desde tu cuenta.",
+    help: "Quedará vinculado a tu usuario."
   },
   anonymous: {
     button: "Enviar proyecto →",
-    note: "El envío se revisa manualmente antes de añadirse al directorio. No hace falta cuenta de GitHub.",
-    help: "Si no tienes cuenta, usaremos el token del proyecto para crear el issue por ti."
+    note: "Crearemos el issue desde la web y lo revisaremos manualmente.",
+    help: "Úsalo si no tienes GitHub."
   }
 };
 
@@ -284,7 +284,7 @@ function initForm() {
         openGitHubIssue(payload);
         submitBtn.disabled = false;
         updateSubmissionModeUI();
-        setFormNote("GitHub se abrió con el issue pre-rellenado. Publícalo allí para completar el envío.");
+        setFormNote("GitHub ya está abierto con el issue preparado. Solo falta publicarlo.");
         return;
       }
 
