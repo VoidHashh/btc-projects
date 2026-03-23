@@ -303,6 +303,11 @@ function initForm() {
     } catch (err) {
       submitBtn.disabled = false;
       updateSubmissionModeUI();
+      if (submissionMode === "anonymous" && /bad credentials/i.test(err.message)) {
+        setFormNote("El envio sin cuenta no esta disponible ahora mismo. Si tienes GitHub, usa la opcion \"Si, usar mi cuenta\". Si quieres mantener el modo anonimo, hay que renovar el token embebido.", "error");
+        return;
+      }
+
       setFormNote("Error al enviar: " + err.message + ". Inténtalo de nuevo.", "error");
     }
   });
