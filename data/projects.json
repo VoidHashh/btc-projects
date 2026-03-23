@@ -76,15 +76,15 @@
   {
     "id": "005",
     "name": "NostrFacil",
-    "description": "Tu guía para entender Nostr",
+    "description": "Guía educativa completa en español sobre el protocolo Nostr. Una landing page estática diseñada para ayudar a nuevos usuarios a entender y empezar con Nostr en 5 minutos.",
     "url": "https://nostrfacil.com/",
     "category": "educacion",
     "tags": [],
-    "author": "",
+    "author": "VoidHash",
     "language": "es",
     "free": true,
     "open_source": true,
-    "github": "",
+    "github": "https://github.com/VoidHashh/nostrweb.git",
     "date_added": "2026-03-23"
   }
 ]
