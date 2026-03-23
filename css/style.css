@@ -308,22 +308,36 @@ nav {
   cursor: pointer;
 }
 
-#clear-filters {
-  margin-top: 16px;
+.filter-reset-btn {
   width: 100%;
-  background: none;
+  margin-top: 18px;
+  padding: 10px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
   border: 1px solid var(--border);
-  color: var(--text-muted);
-  font-family: var(--font-body);
-  font-size: 12px;
-  padding: 7px;
   border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
   cursor: pointer;
   transition: all 0.2s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
 }
-#clear-filters:hover {
-  border-color: var(--accent);
+
+.filter-reset-btn:hover {
+  background: var(--bg-card);
+  border-color: rgba(247, 147, 26, 0.3);
   color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.filter-reset-btn:active {
+  transform: translateY(0);
 }
 
 /* Mobile filter accordion */
