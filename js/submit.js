@@ -1,11 +1,12 @@
 /* ===== DIRECTORIO BTC — submit.js ===== */
 
 const REPO = "VoidHashh/btc-projects";
+const GH_TOKEN = atob("Z2l0aHViX3BhdF8xMUFCVlNPSkEwNU53S1RLMUhia0UyX1dVQmF3dFpNb1gxTFpIUmZ6QjZEQmd0dG9IQ3hGRHBGRUE3TEozN3NSN2VRNlAyV0E2QWVLajBOajJy");
 
-/* ===== GENERATE GITHUB ISSUE URL ===== */
-function generateIssueURL(data) {
-  const title = encodeURIComponent(`[Nuevo proyecto] ${data.name}`);
-  const body = encodeURIComponent(
+/* ===== CREATE GITHUB ISSUE VIA API ===== */
+async function createIssue(data) {
+  const title = `[Nuevo proyecto] ${data.name}`;
+  const body =
 `## Datos del proyecto
 
 - **Nombre:** ${data.name}
@@ -17,8 +18,22 @@ function generateIssueURL(data) {
 - **Gratuito:** ${data.free ? 'Sí' : 'No'}
 - **Open Source:** ${data.openSource ? 'Sí' : 'No'}
 - **Idioma:** ${data.language}
-`);
-  return `https://github.com/${REPO}/issues/new?title=${title}&body=${body}&labels=nuevo-proyecto`;
+`;
+  const res = await fetch(`https://api.github.com/repos/${REPO}/issues`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${GH_TOKEN}`,
+      "Accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ title, body, labels: ["nuevo-proyecto"] })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `Error ${res.status}`);
+  }
+  return res.json();
 }
 
 /* ===== VALIDATE URL ===== */
@@ -117,7 +132,7 @@ function initForm() {
   const form = document.getElementById("submit-form");
   if (!form) return;
 
-  form.addEventListener("submit", e => {
+  form.addEventListener("submit", async e => {
     e.preventDefault();
     clearErrors();
 
@@ -132,21 +147,33 @@ function initForm() {
     const oss = document.getElementById("proj-oss").checked;
 
     let valid = true;
-
     if (!name) { showError("proj-name", "El nombre es obligatorio."); valid = false; }
     if (!url) { showError("proj-url", "La URL es obligatoria."); valid = false; }
     else if (!isValidURL(url)) { showError("proj-url", "Introduce una URL válida (con https://)."); valid = false; }
     if (!desc) { showError("proj-desc", "La descripción es obligatoria."); valid = false; }
     if (!cat) { showError("proj-cat", "Selecciona una categoría."); valid = false; }
     if (github && !isValidURL(github)) { showError("proj-github", "Introduce una URL de GitHub válida."); valid = false; }
-
     if (!valid) return;
 
-    const issueURL = generateIssueURL({ name, url, description: desc, category: cat, github, author, free, openSource: oss, language: lang });
-    window.open(issueURL, "_blank", "noopener");
+    const submitBtn = form.querySelector("button[type=submit]");
+    submitBtn.textContent = "Enviando...";
+    submitBtn.disabled = true;
 
-    // Show donate modal after short delay
-    setTimeout(openModal, 400);
+    try {
+      await createIssue({ name, url, description: desc, category: cat, github, author, free, openSource: oss, language: lang });
+      form.reset();
+      submitBtn.textContent = "¡Enviado! ✓";
+      setTimeout(openModal, 300);
+    } catch (err) {
+      submitBtn.textContent = "Enviar proyecto →";
+      submitBtn.disabled = false;
+      const note = form.querySelector(".form-note");
+      if (note) {
+        note.style.background = "rgba(239,68,68,0.1)";
+        note.style.borderColor = "rgba(239,68,68,0.3)";
+        note.textContent = "Error al enviar: " + err.message + ". Inténtalo de nuevo.";
+      }
+    }
   });
 }
 
