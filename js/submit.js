@@ -69,9 +69,16 @@ function buildGitHubIssueURL(data) {
 
 function openGitHubIssue(data) {
   const issueURL = buildGitHubIssueURL(data);
-  const popup = window.open(issueURL, "_blank", "noopener");
+  const popup = window.open("", "_blank");
 
-  return Boolean(popup);
+  if (!popup) {
+    return false;
+  }
+
+  popup.opener = null;
+  popup.location.href = issueURL;
+
+  return true;
 }
 
 /* ===== VALIDATE URL ===== */

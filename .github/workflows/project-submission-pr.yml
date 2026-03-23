@@ -25,12 +25,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Build project entry from issue
         id: project
@@ -43,7 +43,7 @@ jobs:
       - name: Create or update review PR
         id: cpr
         if: steps.project.outputs.status == 'success'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: automation/project-issue-${{ github.event.issue.number }}
           delete-branch: true
@@ -62,7 +62,7 @@ jobs:
 
       - name: Upsert issue status comment
         if: always() && steps.project.outputs.status != ''
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           STATUS: ${{ steps.project.outputs.status }}
           MESSAGE: ${{ steps.project.outputs.message }}
