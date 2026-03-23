@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre el proyecto — Directorio BTC</title>
+  <meta name="description" content="Qué es el Directorio BTC, cómo funciona y cómo puedes colaborar.">
+
+  <meta property="og:title" content="Sobre el proyecto — Directorio BTC">
+  <meta property="og:description" content="Directorio abierto y mantenido por la comunidad para descubrir proyectos del ecosistema Bitcoin.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₿</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <nav>
+      <a href="index.html" class="logo">₿ directorio<span class="accent">btc</span></a>
+      <div class="nav-links">
+        <a href="index.html">Inicio</a>
+        <a href="about.html">Sobre</a>
+        <a href="donar.html">Donar ⚡</a>
+        <a href="submit.html" class="btn-submit">+ Añadir proyecto</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="about.html">Sobre el proyecto</a>
+    <a href="donar.html">Donar ⚡</a>
+    <a href="submit.html" style="color:var(--accent);font-weight:700;">+ Añadir proyecto</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Sobre este <span class="accent">directorio</span></h1>
+    <p>Un directorio abierto y mantenido por la comunidad para descubrir proyectos, herramientas y recursos del ecosistema Bitcoin y blockchain.</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="page-content">
+
+    <div class="info-section">
+      <h2>¿Qué es esto?</h2>
+      <p>El Directorio BTC es una colección curada de proyectos, herramientas y recursos relacionados con Bitcoin y blockchain. El objetivo es que cualquier persona pueda encontrar fácilmente lo que busca: desde wallets y nodos hasta herramientas de análisis on-chain, recursos educativos o proyectos de privacidad.</p>
+      <p>No hay algoritmos de recomendación, ni publicidad, ni tracking. Solo una lista honesta mantenida por la comunidad.</p>
+    </div>
+
+    <div class="info-section">
+      <h2>¿Cómo funciona?</h2>
+      <ul>
+        <li>Cualquiera puede enviar un proyecto a través del formulario de envío.</li>
+        <li>Los envíos llegan como Issues a GitHub, donde se revisan manualmente para mantener la calidad.</li>
+        <li>Una vez aprobado, el proyecto se añade al archivo <code style="font-family:var(--font-display);font-size:12px;color:var(--accent);">data/projects.json</code> en el repositorio.</li>
+        <li>Los datos son totalmente abiertos y accesibles en GitHub — transparencia total.</li>
+        <li>No hay backend, no hay base de datos. Todo es un fichero JSON estático.</li>
+      </ul>
+    </div>
+
+    <div class="info-section">
+      <h2>¿Cómo colaborar?</h2>
+      <ul>
+        <li>Envía un proyecto que conozcas usando el formulario.</li>
+        <li>Reporta enlaces rotos o datos incorrectos abriendo un Issue en GitHub.</li>
+        <li>Si sabes programar, puedes contribuir directamente vía Pull Request.</li>
+        <li>Apoya con sats el mantenimiento desde la <a href="donar.html">página de donativo</a>.</li>
+      </ul>
+    </div>
+
+    <div class="info-section">
+      <h2>Créditos</h2>
+      <p>Proyecto del ecosistema <a href="https://aprendebtc.com" target="_blank" rel="noopener">aprendeBTC</a>.</p>
+      <p>Código fuente disponible en <a href="https://github.com/VoidHashh/btc-projects" target="_blank" rel="noopener">GitHub</a>. Sin licencia restrictiva — úsalo, fórkalo, mejóralo.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Directorio BTC &mdash; Proyecto abierto de la comunidad</p>
+    <p>Parte del ecosistema <a href="https://aprendebtc.com" target="_blank" rel="noopener">aprendeBTC</a> &middot; <a href="https://github.com/VoidHashh/btc-projects" target="_blank" rel="noopener">GitHub</a></p>
+    <p><a href="donar.html">Apoya con sats ⚡</a></p>
+  </footer>
+
+  <script>
+    document.getElementById("hamburger").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.toggle("open");
+    });
+  </script>
+</body>
+</html>

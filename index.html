@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Directorio BTC — Proyectos Bitcoin & Blockchain</title>
+  <meta name="description" content="Directorio abierto de proyectos, herramientas y recursos del ecosistema Bitcoin y blockchain. Contribuye añadiendo los tuyos.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Directorio BTC — Proyectos Bitcoin & Blockchain">
+  <meta property="og:description" content="Directorio abierto de proyectos, herramientas y recursos del ecosistema Bitcoin y blockchain.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://voidhashh.github.io/btc-projects/">
+
+  <!-- Favicon SVG inline -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₿</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- HEADER / NAV -->
+  <header>
+    <nav>
+      <a href="index.html" class="logo">₿ directorio<span class="accent">btc</span></a>
+      <div class="nav-links">
+        <a href="index.html">Inicio</a>
+        <a href="about.html">Sobre</a>
+        <a href="donar.html">Donar ⚡</a>
+        <a href="submit.html" class="btn-submit">+ Añadir proyecto</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" role="navigation">
+    <a href="index.html">Inicio</a>
+    <a href="about.html">Sobre el proyecto</a>
+    <a href="donar.html">Donar ⚡</a>
+    <a href="submit.html" style="color:var(--accent);font-weight:700;">+ Añadir proyecto</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Proyectos BTC &amp; Blockchain</h1>
+    <p class="subtitle">Directorio abierto de herramientas, recursos y proyectos del ecosistema Bitcoin. Mantenido por la comunidad.</p>
+    <div class="stats">
+      <span id="project-count">0</span> proyectos · <span id="category-count">0</span> categorías · 100% abierto
+    </div>
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Buscar proyectos..." autocomplete="off" aria-label="Buscar proyectos">
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- MOBILE FILTER ACCORDION -->
+    <div class="filter-accordion">
+      <div class="filter-accordion-header" id="filter-toggle" role="button" tabindex="0" aria-expanded="false">
+        <span>Filtrar proyectos</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="filter-accordion-body" id="filter-body">
+        <div style="margin-bottom:12px;">
+          <div class="filters" style="position:static;border:none;padding:0;background:none;">
+            <h3>Categorías</h3>
+            <div id="category-filters"></div>
+            <h3>Filtros</h3>
+            <div class="filter-checks">
+              <label><input type="checkbox" id="filter-free"> Solo gratuitos</label>
+              <label><input type="checkbox" id="filter-opensource"> Solo open source</label>
+            </div>
+            <h3>Idioma</h3>
+            <div id="language-filters"></div>
+            <button id="clear-filters">Limpiar filtros</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP SIDEBAR FILTROS -->
+    <aside class="filters" aria-label="Filtros">
+      <h3>Categorías</h3>
+      <div id="category-filters-desktop"></div>
+      <h3>Filtros</h3>
+      <div class="filter-checks">
+        <label><input type="checkbox" id="filter-free-desktop"> Solo gratuitos</label>
+        <label><input type="checkbox" id="filter-opensource-desktop"> Solo open source</label>
+      </div>
+      <h3>Idioma</h3>
+      <div id="language-filters-desktop"></div>
+      <button id="clear-filters-desktop">Limpiar filtros</button>
+    </aside>
+
+    <!-- GRID DE PROYECTOS -->
+    <section aria-label="Proyectos">
+      <!-- Empty state -->
+      <div id="empty-state" class="hidden">
+        <div class="empty-icon">🔍</div>
+        <p>No se encontraron proyectos con esos filtros.</p>
+      </div>
+      <!-- Cards rendered by JS -->
+      <div class="projects-grid" id="projects-grid"></div>
+    </section>
+
+  </main>
+
+  <!-- FLOATING BUTTON -->
+  <a href="submit.html" class="fab" title="Añadir proyecto" aria-label="Añadir proyecto">+</a>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Directorio BTC &mdash; Proyecto abierto de la comunidad</p>
+    <p>Parte del ecosistema <a href="https://aprendebtc.com" target="_blank" rel="noopener">aprendeBTC</a> &middot; <a href="https://github.com/VoidHashh/btc-projects" target="_blank" rel="noopener">GitHub</a></p>
+    <p><a href="donar.html">Apoya con sats ⚡</a></p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
