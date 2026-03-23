@@ -3,10 +3,9 @@ name: Project Submission PR
 on:
   issues:
     types:
-      - opened
+      - labeled
       - edited
       - reopened
-      - labeled
 
 permissions:
   contents: write
@@ -19,7 +18,9 @@ concurrency:
 
 jobs:
   prepare-project-pr:
-    if: contains(github.event.issue.labels.*.name, 'nuevo-proyecto')
+    if: |
+      (github.event.action == 'labeled' && github.event.label.name == 'nuevo-proyecto') ||
+      (github.event.action != 'labeled' && contains(github.event.issue.labels.*.name, 'nuevo-proyecto'))
     runs-on: ubuntu-latest
 
     steps:
@@ -78,7 +79,7 @@ jobs:
             let body = `${marker}\n`;
 
             if (status === 'success' && cprOutcome === 'failure') {
-              body += `He podido preparar los datos, pero la PR automática falló al crearse.\n\n${message}`;
+              body += `He podido preparar los datos, pero GitHub no permitió crear la PR automática.\n\nRevisa en Settings > Actions > General si está activada la opción "Allow GitHub Actions to create and approve pull requests", y después edita o reabre este issue para reintentarlo.\n\n${message}`;
             } else if (status === 'success') {
               body += prUrl
                 ? `He preparado una PR para revisión: ${prUrl}\n\n${message}`
