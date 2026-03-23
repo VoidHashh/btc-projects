@@ -71,9 +71,7 @@ function openGitHubIssue(data) {
   const issueURL = buildGitHubIssueURL(data);
   const popup = window.open(issueURL, "_blank", "noopener");
 
-  if (!popup) {
-    window.location.href = issueURL;
-  }
+  return Boolean(popup);
 }
 
 /* ===== VALIDATE URL ===== */
@@ -281,10 +279,14 @@ function initForm() {
       };
 
       if (submissionMode === "github") {
-        openGitHubIssue(payload);
+        const opened = openGitHubIssue(payload);
         submitBtn.disabled = false;
         updateSubmissionModeUI();
-        setFormNote("GitHub ya está abierto con el issue preparado. Cuando lo publiques, se generará una PR para revisión.");
+        if (!opened) {
+          setFormNote("Tu navegador ha bloqueado la nueva pestaña. Permite pop-ups para GitHub y vuelve a intentarlo.", "error");
+          return;
+        }
+        setFormNote("GitHub ya está abierto en una nueva pestaña. Cuando publiques el issue, se generará una PR para revisión.");
         return;
       }
 
