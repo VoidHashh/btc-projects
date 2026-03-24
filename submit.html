@@ -13,7 +13,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23f7931a'>₿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260324h">
+  <link rel="stylesheet" href="css/style.css?v=20260324i">
 </head>
 <body>
 
@@ -67,21 +67,21 @@
         </div>
 
         <div class="form-group">
-          <label for="proj-cat">Categoría <span class="req">*</span></label>
-          <select id="proj-cat" required>
-            <option value="">— Selecciona una categoría —</option>
-            <option value="hardware-wallets">🔐 Hardware Wallets</option>
-            <option value="privacidad">🕵️ Privacidad</option>
-            <option value="metricas-analytics">📊 Métricas & Analytics</option>
-            <option value="nodos">🖥️ Nodos</option>
-            <option value="educacion">📚 Educación</option>
-            <option value="herramientas-dev">🛠️ Herramientas Dev</option>
-            <option value="wallets-software">💼 Wallets Software</option>
-            <option value="lightning">⚡ Lightning Network</option>
-            <option value="mineria">⛏️ Minería</option>
-            <option value="fiscalidad">🧾 Fiscalidad</option>
-            <option value="otro">📦 Otro</option>
-          </select>
+          <label class="group-label" for="proj-cats">Categorías <span class="req">*</span></label>
+          <div class="category-picker" id="proj-cats">
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="hardware-wallets"> <span>🔐 Hardware Wallets</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="privacidad"> <span>🕵️ Privacidad</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="metricas-analytics"> <span>📊 Métricas & Analytics</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="nodos"> <span>🖥️ Nodos</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="educacion"> <span>📚 Educación</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="herramientas-dev"> <span>🛠️ Herramientas Dev</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="wallets-software"> <span>💼 Wallets Software</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="lightning"> <span>⚡ Lightning Network</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="mineria"> <span>⛏️ Minería</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="fiscalidad"> <span>🧾 Fiscalidad</span></label>
+            <label class="category-option"><input type="checkbox" name="proj-categories" value="otro"> <span>📦 Otro</span></label>
+          </div>
+          <span class="category-help">Puedes marcar varias si el proyecto encaja en más de una.</span>
         </div>
 
         <div class="form-row">
@@ -189,6 +189,6 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="js/donation-ui.js?v=20260324h"></script>
-  <script src="js/submit.js?v=20260324h"></script>
+  <script src="js/submit.js?v=20260324i"></script>
 </body>
 </html>

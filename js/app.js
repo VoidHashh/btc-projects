@@ -41,7 +41,7 @@ async function loadProjects() {
 
 /* ===== FILTERS BUILD ===== */
 function buildFilters() {
-  const usedCategories = [...new Set(allProjects.map(p => p.category))];
+  const usedCategories = [...new Set(allProjects.flatMap(getProjectCategories))];
   const usedLangs = [...new Set(allProjects.map(p => p.language))];
 
   // Build category buttons for both desktop and mobile
@@ -120,10 +120,11 @@ function applyFilters() {
   const query = document.getElementById("search").value.trim().toLowerCase();
 
   const filtered = allProjects.filter(p => {
+    const projectCategories = getProjectCategories(p);
     // Search
     if (query && !p.name.toLowerCase().includes(query) && !p.description.toLowerCase().includes(query)) return false;
     // Category
-    if (activeCategories.size > 0 && !activeCategories.has(p.category)) return false;
+    if (activeCategories.size > 0 && !projectCategories.some(category => activeCategories.has(category))) return false;
     // Free
     if (filterFree && !p.free) return false;
     // OSS
@@ -153,12 +154,16 @@ function renderProjects(projects) {
   grid.innerHTML = "";
 
   projects.forEach((p, i) => {
+    const projectCategories = getProjectCategories(p);
+    const primaryCategory = projectCategories[0] || "";
     const card = document.createElement("article");
     card.className = "project-card";
-    card.dataset.category = p.category;
+    card.dataset.category = projectCategories.join(" ");
     card.style.animationDelay = `${i * 50}ms`;
 
-    const catLabel = CATEGORIES[p.category] || p.category;
+    const categoryBadges = projectCategories
+      .map(category => `<span class="card-category">${escapeHtml(CATEGORIES[category] || category)}</span>`)
+      .join("");
     const langLabel = p.language ? p.language.toUpperCase() : "";
 
     const freeBadge = p.free
@@ -182,7 +187,7 @@ function renderProjects(projects) {
 
     card.innerHTML = `
       <div class="card-header">
-        <span class="card-category">${escapeHtml(catLabel)}</span>
+        <div class="card-categories">${categoryBadges || `<span class="card-category">${escapeHtml(CATEGORIES[primaryCategory] || primaryCategory)}</span>`}</div>
         <div class="card-badges">${freeBadge}${ossBadge}${langBadge}</div>
       </div>
       <h3 class="card-title">${escapeHtml(p.name)}</h3>
@@ -243,6 +248,18 @@ function getXIcon() {
       <path d="M18.244 2h3.064l-6.69 7.645L22.488 22h-6.164l-4.829-7.491L4.94 22H1.874l7.156-8.179L1.488 2h6.32l4.365 6.846L18.244 2Z"/>
     </svg>
   `;
+}
+
+function getProjectCategories(project) {
+  if (Array.isArray(project.categories) && project.categories.length > 0) {
+    return project.categories.filter(Boolean);
+  }
+
+  if (typeof project.category === "string" && project.category.trim()) {
+    return [project.category.trim()];
+  }
+
+  return [];
 }
 
 function getGitHubIcon() {

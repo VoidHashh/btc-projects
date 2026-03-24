@@ -76,7 +76,7 @@ function mapLabel(rawLabel) {
   if (label === "nombre") return "name";
   if (label === "url") return "url";
   if (label.startsWith("descripci")) return "description";
-  if (label.startsWith("categor")) return "category";
+  if (label.startsWith("categor")) return "categories";
   if (label.startsWith("github")) return "github";
   if (label.startsWith("autor")) return "author";
   if (label === "x") return "x";
@@ -110,6 +110,15 @@ function parseIssueBody(body) {
   }
 
   return fields;
+}
+
+function normalizeCategories(value) {
+  return [...new Set(
+    value
+      .split(",")
+      .map(item => normalizeLabel(item))
+      .filter(Boolean)
+  )];
 }
 
 function normalizeUrl(value) {
@@ -146,7 +155,7 @@ const parsed = parseIssueBody(body);
 const name = parsed.name ?? "";
 const url = parsed.url ?? "";
 const description = parsed.description ?? "";
-const category = normalizeLabel(parsed.category ?? "");
+const categories = normalizeCategories(parsed.categories ?? parsed.category ?? "");
 const github = normalizeOptional(parsed.github ?? "");
 const author = normalizeOptional(parsed.author ?? "");
 const x = normalizeOptional(parsed.x ?? "");
@@ -160,7 +169,7 @@ const missingFields = [];
 if (!name) missingFields.push("Nombre");
 if (!url) missingFields.push("URL");
 if (!description) missingFields.push("Descripción");
-if (!category) missingFields.push("Categoría");
+if (categories.length === 0) missingFields.push("Categorías");
 if (!language) missingFields.push("Idioma");
 if (free === null) missingFields.push("Gratuito");
 if (openSource === null) missingFields.push("Open Source");
@@ -181,10 +190,12 @@ try {
   finish("invalid", error.message);
 }
 
-if (!ALLOWED_CATEGORIES.has(category)) {
+const invalidCategories = categories.filter(category => !ALLOWED_CATEGORIES.has(category));
+
+if (invalidCategories.length > 0) {
   finish(
     "invalid",
-    `La categoría "${category}" no es válida. Usa una de las categorías soportadas en el formulario.`
+    `Estas categorías no son válidas: ${invalidCategories.join(", ")}. Usa solo categorías soportadas en el formulario.`
   );
 }
 
@@ -215,7 +226,7 @@ const newProject = {
   name,
   description,
   url,
-  category,
+  categories,
   tags: [],
   author,
   x,

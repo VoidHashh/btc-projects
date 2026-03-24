@@ -163,7 +163,8 @@ function initForm() {
     const name = document.getElementById("proj-name").value.trim();
     const url = document.getElementById("proj-url").value.trim();
     const desc = document.getElementById("proj-desc").value.trim();
-    const cat = document.getElementById("proj-cat").value;
+    const categories = Array.from(document.querySelectorAll('input[name="proj-categories"]:checked'))
+      .map(input => input.value);
     const github = document.getElementById("proj-github").value.trim();
     const author = document.getElementById("proj-author").value.trim();
     const x = document.getElementById("proj-x").value.trim();
@@ -188,8 +189,8 @@ function initForm() {
       showError("proj-desc", "La descripción es obligatoria.");
       valid = false;
     }
-    if (!cat) {
-      showError("proj-cat", "Selecciona una categoría.");
+    if (categories.length === 0) {
+      showError("proj-cats", "Selecciona al menos una categoría.");
       valid = false;
     }
     if (github && !isValidURL(github)) {
@@ -215,7 +216,7 @@ function initForm() {
         name,
         url,
         description: desc,
-        category: cat,
+        categories,
         github,
         author,
         x,

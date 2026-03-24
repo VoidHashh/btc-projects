@@ -4,7 +4,9 @@
     "name": "MatheyBTC HW Explorer",
     "description": "Comparador interactivo de hardware wallets de Bitcoin. Filtros avanzados, comparativas lado a lado y datos actualizados semanalmente desde los repositorios oficiales de cada fabricante.",
     "url": "https://matheybtc.github.io/MatheyBTC-HW-list/",
-    "category": "hardware-wallets",
+    "categories": [
+      "hardware-wallets"
+    ],
     "tags": [
       "open-source",
       "comparador",
@@ -22,7 +24,9 @@
     "name": "BTC Descentraliza",
     "description": "Portal de recursos y herramientas para el ecosistema Bitcoin descentralizado. Información curada sobre nodos, wallets, privacidad y soberanía financiera.",
     "url": "https://btc.descentraliza.es",
-    "category": "educacion",
+    "categories": [
+      "educacion"
+    ],
     "tags": [
       "recursos",
       "descentralización",
@@ -40,7 +44,9 @@
     "name": "Am I Exposed?",
     "description": "Escáner de privacidad Bitcoin. Analiza transacciones y UTXOs para detectar vulnerabilidades de privacidad en tus operaciones. 100% client-side, sin tracking, open source.",
     "url": "https://am-i.exposed/",
-    "category": "privacidad",
+    "categories": [
+      "privacidad"
+    ],
     "tags": [
       "open-source",
       "privacidad",
@@ -59,7 +65,9 @@
     "name": "Cronos Index — CriptoATH",
     "description": "Índice de riesgo on-chain de Bitcoin en vivo. Combina 5 métricas fundamentales (MVRV, NUPL, SOPR, Puell Multiple, RHODL) en un indicador único de 0 a 100. Referencia en español para análisis de ciclos.",
     "url": "https://criptoath.com/metricas/",
-    "category": "metricas-analytics",
+    "categories": [
+      "metricas-analytics"
+    ],
     "tags": [
       "on-chain",
       "métricas",
@@ -78,7 +86,9 @@
     "name": "NostrFacil",
     "description": "Guía educativa completa en español sobre el protocolo Nostr. Una landing page estática diseñada para ayudar a nuevos usuarios a entender y empezar con Nostr en 5 minutos.",
     "url": "https://nostrfacil.com/",
-    "category": "educacion",
+    "categories": [
+      "educacion"
+    ],
     "tags": [],
     "author": "VoidHash",
     "x": "https://x.com/0x17fx",
@@ -94,7 +104,9 @@
     "name": "Bitcoin Calculadora",
     "description": "Si hubiera comprado Bitcoin...",
     "url": "https://bitcoincalculadora.com/",
-    "category": "educacion",
+    "categories": [
+      "educacion"
+    ],
     "tags": [],
     "author": "VoidHash",
     "x": "https://x.com/0x17fx",
@@ -110,7 +122,9 @@
     "name": "aprendeBTC",
     "description": "La guía más completa en español. Desde tu primera compra hasta criptografía avanzada.",
     "url": "https://aprendebtc.com/",
-    "category": "educacion",
+    "categories": [
+      "educacion"
+    ],
     "tags": [],
     "author": "VoidHash",
     "x": "https://x.com/0x17fx",

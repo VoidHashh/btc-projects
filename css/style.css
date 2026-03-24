@@ -414,9 +414,16 @@ nav {
 
 .card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
+}
+
+.card-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
 }
 
 .card-category {
@@ -430,7 +437,7 @@ nav {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
+  max-width: 180px;
 }
 
 .card-badges {
@@ -773,6 +780,63 @@ footer a:hover { color: var(--accent); }
   cursor: pointer;
 }
 
+.category-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.category-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.1s;
+}
+
+.category-option:hover {
+  border-color: rgba(247, 147, 26, 0.28);
+  background: rgba(247, 147, 26, 0.08);
+  color: var(--text-primary);
+}
+
+.category-option:has(input[type="checkbox"]:checked) {
+  border-color: rgba(247, 147, 26, 0.45);
+  background: rgba(247, 147, 26, 0.12);
+  color: var(--text-primary);
+  box-shadow: inset 0 0 0 1px rgba(247, 147, 26, 0.18);
+}
+
+.category-option input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.category-option span {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.category-help {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -1049,6 +1113,7 @@ footer a:hover { color: var(--accent); }
     grid-template-columns: 1fr;
   }
   .form-row { grid-template-columns: 1fr; }
+  .category-picker { grid-template-columns: 1fr; }
 
   .form-wrap { padding: 20px 16px; }
 

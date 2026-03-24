@@ -112,6 +112,26 @@ function ensureUrl(value, fieldName) {
   return parsed.toString();
 }
 
+function ensureCategories(value) {
+  const source = Array.isArray(value)
+    ? value
+    : typeof value === "string" && value.trim()
+      ? [value]
+      : null;
+
+  if (!source || source.length === 0) {
+    throw new Error('El campo "Categorías" es obligatorio.');
+  }
+
+  const categories = [...new Set(source.map(item => ensureString(item, "Categorías", 80)))];
+
+  if (categories.some(category => !ALLOWED_CATEGORIES.has(category))) {
+    throw new Error("Una de las categorías no es válida.");
+  }
+
+  return categories;
+}
+
 function buildIssuePayload(data) {
   const title = `[Nuevo proyecto] ${data.name}`;
   const body =
@@ -120,7 +140,7 @@ function buildIssuePayload(data) {
 - **Nombre:** ${data.name}
 - **URL:** ${data.url}
 - **Descripción:** ${data.description}
-- **Categoría:** ${data.category}
+- **Categorías:** ${data.categories.join(", ")}
 - **GitHub:** ${data.github || "N/A"}
 - **Autor:** ${data.author || "N/A"}
 - **X:** ${data.x || "N/A"}
@@ -171,7 +191,7 @@ function validatePayload(payload) {
   const name = ensureString(payload.name, "Nombre", 100);
   const url = ensureUrl(ensureString(payload.url, "URL", 300), "URL");
   const description = ensureString(payload.description, "Descripción", 300);
-  const category = ensureString(payload.category, "Categoría", 80);
+  const categories = ensureCategories(payload.categories ?? payload.category);
   const github = optionalString(payload.github, 300);
   const author = optionalString(payload.author, 80);
   const x = optionalString(payload.x, 300);
@@ -179,10 +199,6 @@ function validatePayload(payload) {
   const language = ensureString(payload.language, "Idioma", 20);
   const free = ensureBoolean(payload.free, "Gratuito");
   const openSource = ensureBoolean(payload.openSource, "Open Source");
-
-  if (!ALLOWED_CATEGORIES.has(category)) {
-    throw new Error("La categoría no es válida.");
-  }
 
   if (!ALLOWED_LANGUAGES.has(language)) {
     throw new Error("El idioma no es válido.");
@@ -192,7 +208,7 @@ function validatePayload(payload) {
     name,
     url,
     description,
-    category,
+    categories,
     github: github ? ensureUrl(github, "GitHub") : "",
     author,
     x: x ? ensureUrl(x, "X") : "",
