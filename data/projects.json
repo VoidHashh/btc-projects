@@ -100,5 +100,19 @@
     "open_source": true,
     "github": "https://github.com/VoidHashh/btccalculadora.git",
     "date_added": "2026-03-24"
+  },
+  {
+    "id": "007",
+    "name": "aprendeBTC",
+    "description": "La guía más completa en español. Desde tu primera compra hasta criptografía avanzada.",
+    "url": "https://aprendebtc.com/",
+    "category": "educacion",
+    "tags": [],
+    "author": "VoidHash",
+    "language": "es",
+    "free": true,
+    "open_source": true,
+    "github": "https://github.com/VoidHashh/aprendebtc.git",
+    "date_added": "2026-03-24"
   }
 ]
