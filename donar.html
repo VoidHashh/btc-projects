@@ -13,7 +13,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260324e">
 </head>
 <body>
 
@@ -65,6 +65,19 @@
       <div class="donate-block">
         <h3>BOLT12 Offer</h3>
         <p class="donate-label">Si tu wallet soporta BOLT12 (Phoenix, Core Lightning, etc.):</p>
+        <div class="donation-qr-card">
+          <div class="donation-qr-frame">
+            <div
+              class="donation-qr"
+              data-qr-value="lightning:lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878s85p4demrjltmy3axsgfdp8zse2xjsv7gq8d2u5yy2sffraqnlurqqgp5vl09rcaykeh35gf3f3q5t98ztzh02wvy2jcpzh47q68k9nq97tcqxduy3a6l6rfdkjetndksasc3xv76arqwc83azxegd9see6625r6am9tfx2x7r73tfxd5v3x6rgq6xer4nu7sy4rw9x6f9vthw56whqnyendx8m8kfau9ren78y5s9vcvkeh9cd35qqev8rs9ds5qt0w0t8nu0ju3wedlktsjw33zu54mhszy8a04njza3zppnr549u85n8yslqgvjxa7chgygrwq"
+              data-qr-size="208"
+              data-qr-label="Codigo QR de la oferta BOLT12"
+              role="img"
+              aria-label="Codigo QR de la oferta BOLT12"
+            ></div>
+          </div>
+          <p class="donation-qr-caption">Escanealo con tu wallet Lightning si soporta BOLT12.</p>
+        </div>
         <div class="copy-row">
           <code>lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878s85p4demrjltmy3axsgfdp8zse2xjsv7gq8d2u5yy2sffraqnlurqqgp5vl09rcaykeh35gf3f3q5t98ztzh02wvy2jcpzh47q68k9nq97tcqxduy3a6l6rfdkjetndksasc3xv76arqwc83azxegd9see6625r6am9tfx2x7r73tfxd5v3x6rgq6xer4nu7sy4rw9x6f9vthw56whqnyendx8m8kfau9ren78y5s9vcvkeh9cd35qqev8rs9ds5qt0w0t8nu0ju3wedlktsjw33zu54mhszy8a04njza3zppnr549u85n8yslqgvjxa7chgygrwq</code>
           <button class="btn-copy" data-copy="lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878s85p4demrjltmy3axsgfdp8zse2xjsv7gq8d2u5yy2sffraqnlurqqgp5vl09rcaykeh35gf3f3q5t98ztzh02wvy2jcpzh47q68k9nq97tcqxduy3a6l6rfdkjetndksasc3xv76arqwc83azxegd9see6625r6am9tfx2x7r73tfxd5v3x6rgq6xer4nu7sy4rw9x6f9vthw56whqnyendx8m8kfau9ren78y5s9vcvkeh9cd35qqev8rs9ds5qt0w0t8nu0ju3wedlktsjw33zu54mhszy8a04njza3zppnr549u85n8yslqgvjxa7chgygrwq">Copiar</button>
@@ -111,6 +124,8 @@
     <p>Parte del ecosistema <a href="https://aprendebtc.com" target="_blank" rel="noopener">aprendeBTC</a> &middot; <a href="https://github.com/VoidHashh/btc-projects" target="_blank" rel="noopener">GitHub</a></p>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/donation-ui.js?v=20260324a"></script>
   <script>
     // Hamburger
     document.getElementById("hamburger").addEventListener("click", () => {
