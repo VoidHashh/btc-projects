@@ -569,15 +569,22 @@ nav {
 .card-visit:hover { background: var(--accent-hover) !important; }
 
 .card-github {
-  font-family: var(--font-display);
-  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-muted) !important;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  padding: 4px 8px;
+  width: 30px;
+  height: 30px;
   border-radius: var(--radius);
 }
 .card-github:hover { color: var(--text-primary) !important; border-color: var(--border-hover); }
+.card-github svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
 
 /* ===== EMPTY STATE ===== */
 #empty-state {

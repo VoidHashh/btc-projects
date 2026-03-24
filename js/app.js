@@ -169,7 +169,7 @@ function renderProjects(projects) {
       ? `<span class="badge badge-lang" title="Idioma">${langLabel}</span>` : "";
 
     const githubLink = p.github
-      ? `<a href="${escapeHtml(p.github)}" target="_blank" rel="noopener" class="card-github" aria-label="Ver en GitHub">GH</a>` : "";
+      ? `<a href="${escapeHtml(p.github)}" target="_blank" rel="noopener" class="card-github" aria-label="Ver en GitHub">${getGitHubIcon()}</a>` : "";
     const socialLinks = buildSocialLinks(p);
     const authorBlock = (p.author || socialLinks)
       ? `
@@ -241,6 +241,14 @@ function getXIcon() {
   return `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M18.244 2h3.064l-6.69 7.645L22.488 22h-6.164l-4.829-7.491L4.94 22H1.874l7.156-8.179L1.488 2h6.32l4.365 6.846L18.244 2Z"/>
+    </svg>
+  `;
+}
+
+function getGitHubIcon() {
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.92.57.1.78-.25.78-.56v-1.96c-3.2.7-3.87-1.54-3.87-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.14 1.18a10.9 10.9 0 0 1 5.72 0c2.18-1.49 3.14-1.18 3.14-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.82 1.18 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.77 1.08.77 2.18v3.24c0 .31.21.67.79.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/>
     </svg>
   `;
 }
