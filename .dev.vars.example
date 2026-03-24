@@ -1,0 +1,3 @@
+GITHUB_TOKEN=replace_me
+GITHUB_REPO=VoidHashh/btc-projects
+ALLOWED_ORIGINS=http://localhost:8788,http://127.0.0.1:8788

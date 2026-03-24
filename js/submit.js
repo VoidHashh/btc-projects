@@ -1,52 +1,27 @@
 /* ===== DIRECTORIO BTC - submit.js ===== */
 
-const REPO = "VoidHashh/btc-projects";
-const DEFAULT_BUTTON_LABEL = "Abrir en GitHub →";
-const DEFAULT_NOTE = "Se abrirá GitHub en una nueva pestaña con el issue listo. Después se generará una PR para revisión.";
+const SUBMIT_API_URL =
+  window.DIRECTORIO_CONFIG?.submitApiUrl?.trim() || "/api/submit-project";
+const DEFAULT_BUTTON_LABEL = "Enviar proyecto →";
+const DEFAULT_NOTE = "Enviaremos tu propuesta desde este formulario y se generará una PR para revisión.";
 
-function buildIssuePayload(data) {
-  const title = `[Nuevo proyecto] ${data.name}`;
-  const body =
-`## Datos del proyecto
-
-- **Nombre:** ${data.name}
-- **URL:** ${data.url}
-- **Descripción:** ${data.description}
-- **Categoría:** ${data.category}
-- **GitHub:** ${data.github || "N/A"}
-- **Autor:** ${data.author || "N/A"}
-- **Gratuito:** ${data.free ? "Sí" : "No"}
-- **Open Source:** ${data.openSource ? "Sí" : "No"}
-- **Idioma:** ${data.language}
-- **Método de envío:** Formulario web
-`;
-
-  return { title, body };
-}
-
-function buildGitHubIssueURL(data) {
-  const { title, body } = buildIssuePayload(data);
-  const params = new URLSearchParams({
-    title,
-    body,
-    labels: "nuevo-proyecto"
+async function submitProject(data) {
+  const res = await fetch(SUBMIT_API_URL, {
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
   });
-  return `https://github.com/${REPO}/issues/new?${params.toString()}`;
-}
 
-function openGitHubIssue(data) {
-  const issueURL = buildGitHubIssueURL(data);
-  const popup = window.open(issueURL, "_blank");
+  const payload = await res.json().catch(() => ({}));
 
-  if (!popup) {
-    return false;
+  if (!res.ok) {
+    throw new Error(payload.error || payload.message || `Error ${res.status}`);
   }
 
-  try {
-    popup.opener = null;
-  } catch {}
-
-  return true;
+  return payload;
 }
 
 /* ===== VALIDATE URL ===== */
@@ -212,32 +187,47 @@ function initForm() {
     if (!valid) return;
 
     const submitBtn = form.querySelector("button[type=submit]");
-    submitBtn.textContent = "Abriendo GitHub...";
+    submitBtn.textContent = "Enviando...";
     submitBtn.disabled = true;
 
-    const payload = {
-      name,
-      url,
-      description: desc,
-      category: cat,
-      github,
-      author,
-      free,
-      openSource: oss,
-      language: lang
-    };
+    try {
+      const payload = {
+        name,
+        url,
+        description: desc,
+        category: cat,
+        github,
+        author,
+        free,
+        openSource: oss,
+        language: lang
+      };
 
-    const opened = openGitHubIssue(payload);
-    if (!opened) {
+      await submitProject(payload);
+      form.reset();
+      document.getElementById("desc-count").textContent = "0 / 300";
+      document.getElementById("desc-count").classList.remove("warn");
+      submitBtn.textContent = "¡Enviado! ✓";
+      setFormNote("Proyecto enviado. Prepararemos una PR para revisión antes de publicarlo.");
+
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = DEFAULT_BUTTON_LABEL;
+        setFormNote(DEFAULT_NOTE);
+      }, 1200);
+
+      setTimeout(openModal, 300);
+    } catch (err) {
       submitBtn.disabled = false;
       submitBtn.textContent = DEFAULT_BUTTON_LABEL;
-      setFormNote("Tu navegador ha bloqueado la nueva pestaña. Permite pop-ups para GitHub y vuelve a intentarlo.", "error");
-      return;
-    }
 
-    submitBtn.disabled = false;
-    submitBtn.textContent = DEFAULT_BUTTON_LABEL;
-    setFormNote("GitHub ya está abierto en una nueva pestaña. Cuando publiques el issue, se generará una PR para revisión.");
+      if (/404|failed to fetch|networkerror/i.test(err.message)) {
+        setFormNote("El servicio de envío todavía no está activo en este despliegue.", "error");
+        return;
+      }
+
+      setFormNote("Error al enviar: " + err.message + ". Inténtalo de nuevo.", "error");
+    }
   });
 }
 
