@@ -689,100 +689,6 @@ footer a:hover { color: var(--accent); }
 }
 .form-group select option { background: var(--bg-card); color: var(--text-primary); }
 
-.submit-mode-header {
-  margin: 4px 0 10px;
-}
-
-.submission-mode {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.mode-option {
-  position: relative;
-  display: block !important;
-  padding: 14px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s, transform 0.1s;
-  margin-bottom: 0 !important;
-}
-
-.mode-option:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-1px);
-  background: var(--bg-card-hover);
-}
-
-.mode-option.is-selected,
-.mode-option:has(input:checked) {
-  background: var(--accent-soft);
-  border-color: rgba(247, 147, 26, 0.35);
-  box-shadow: inset 0 0 0 1px rgba(247, 147, 26, 0.18);
-}
-
-.mode-option input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.mode-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 0;
-}
-
-.mode-title-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.mode-title {
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.3;
-}
-
-.mode-description {
-  color: var(--text-muted);
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.mode-tag {
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  color: var(--accent);
-  background: rgba(247, 147, 26, 0.08);
-  border: 1px solid rgba(247, 147, 26, 0.16);
-  white-space: nowrap;
-}
-
-.mode-tag-muted {
-  color: var(--text-secondary);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-}
-
-.mode-help {
-  margin-top: 0;
-  color: var(--text-muted);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
 .char-count {
   display: block;
   text-align: right;
@@ -1040,9 +946,6 @@ footer a:hover { color: var(--accent); }
   .projects-grid {
     grid-template-columns: 1fr;
   }
-
-  .submission-mode { grid-template-columns: 1fr; }
-
   .form-row { grid-template-columns: 1fr; }
 
   .form-wrap { padding: 20px 16px; }

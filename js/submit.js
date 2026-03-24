@@ -2,18 +2,8 @@
 
 const REPO = "VoidHashh/btc-projects";
 const GH_TOKEN = atob("Z2l0aHViX3BhdF8xMUFCVlNPSkEwNU53S1RLMUhia0UyX1dVQmF3dFpNb1gxTFpIUmZ6QjZEQmd0dG9IQ3hGRHBGRUE3TEozN3NSN2VRNlAyV0E2QWVLajBOajJy");
-const MODE_UI = {
-  github: {
-    button: "Abrir en GitHub →",
-    note: "Se abrirá GitHub con el issue listo. Después se generará una PR para revisión.",
-    help: "Quedará vinculado a tu usuario."
-  },
-  anonymous: {
-    button: "Enviar proyecto →",
-    note: "Crearemos el issue desde la web. Después se generará una PR para revisión.",
-    help: "Úsalo si no tienes GitHub."
-  }
-};
+const DEFAULT_BUTTON_LABEL = "Enviar proyecto →";
+const DEFAULT_NOTE = "Enviaremos tu propuesta desde este formulario y se generará una PR para revisión.";
 
 function buildIssuePayload(data) {
   const title = `[Nuevo proyecto] ${data.name}`;
@@ -29,7 +19,7 @@ function buildIssuePayload(data) {
 - **Gratuito:** ${data.free ? "Sí" : "No"}
 - **Open Source:** ${data.openSource ? "Sí" : "No"}
 - **Idioma:** ${data.language}
-- **Método de envío:** ${data.submissionMode === "github" ? "Cuenta de GitHub" : "Formulario web sin cuenta"}
+- **Método de envío:** Formulario web
 `;
 
   return { title, body };
@@ -55,30 +45,6 @@ async function createIssue(data) {
   }
 
   return res.json();
-}
-
-function buildGitHubIssueURL(data) {
-  const { title, body } = buildIssuePayload(data);
-  const params = new URLSearchParams({
-    title,
-    body,
-    labels: "nuevo-proyecto"
-  });
-  return `https://github.com/${REPO}/issues/new?${params.toString()}`;
-}
-
-function openGitHubIssue(data) {
-  const issueURL = buildGitHubIssueURL(data);
-  const popup = window.open("", "_blank");
-
-  if (!popup) {
-    return false;
-  }
-
-  popup.opener = null;
-  popup.location.href = issueURL;
-
-  return true;
 }
 
 /* ===== VALIDATE URL ===== */
@@ -128,29 +94,6 @@ function setFormNote(message, variant = "default") {
   note.textContent = `ℹ️ ${message}`;
   note.style.background = "rgba(247,147,26,0.1)";
   note.style.borderColor = "rgba(247,147,26,0.2)";
-}
-
-function getSubmissionMode() {
-  return document.querySelector('input[name="submit-mode"]:checked')?.value || "github";
-}
-
-function updateSubmissionModeUI() {
-  const mode = getSubmissionMode();
-  const copy = MODE_UI[mode] || MODE_UI.github;
-  const submitBtn = document.querySelector("#submit-form button[type=submit]");
-  const help = document.getElementById("mode-help");
-
-  if (submitBtn && !submitBtn.disabled) {
-    submitBtn.textContent = copy.button;
-  }
-  if (help) {
-    help.textContent = copy.help;
-  }
-  document.querySelectorAll(".mode-option").forEach(option => {
-    const input = option.querySelector('input[name="submit-mode"]');
-    option.classList.toggle("is-selected", Boolean(input?.checked));
-  });
-  setFormNote(copy.note);
 }
 
 /* ===== COPY TO CLIPBOARD ===== */
@@ -228,7 +171,7 @@ function initForm() {
   form.addEventListener("submit", async e => {
     e.preventDefault();
     clearErrors();
-    updateSubmissionModeUI();
+    setFormNote(DEFAULT_NOTE);
 
     const name = document.getElementById("proj-name").value.trim();
     const url = document.getElementById("proj-url").value.trim();
@@ -239,7 +182,6 @@ function initForm() {
     const lang = document.getElementById("proj-lang").value;
     const free = document.getElementById("proj-free").checked;
     const oss = document.getElementById("proj-oss").checked;
-    const submissionMode = getSubmissionMode();
 
     let valid = true;
     if (!name) {
@@ -268,7 +210,7 @@ function initForm() {
     if (!valid) return;
 
     const submitBtn = form.querySelector("button[type=submit]");
-    submitBtn.textContent = submissionMode === "github" ? "Abriendo GitHub..." : "Enviando...";
+    submitBtn.textContent = "Enviando...";
     submitBtn.disabled = true;
 
     try {
@@ -281,39 +223,29 @@ function initForm() {
         author,
         free,
         openSource: oss,
-        language: lang,
-        submissionMode
+        language: lang
       };
-
-      if (submissionMode === "github") {
-        const opened = openGitHubIssue(payload);
-        submitBtn.disabled = false;
-        updateSubmissionModeUI();
-        if (!opened) {
-          setFormNote("Tu navegador ha bloqueado la nueva pestaña. Permite pop-ups para GitHub y vuelve a intentarlo.", "error");
-          return;
-        }
-        setFormNote("GitHub ya está abierto en una nueva pestaña. Cuando publiques el issue, se generará una PR para revisión.");
-        return;
-      }
 
       await createIssue(payload);
       form.reset();
       document.getElementById("desc-count").textContent = "0 / 300";
       document.getElementById("desc-count").classList.remove("warn");
       submitBtn.textContent = "¡Enviado! ✓";
+      setFormNote("Proyecto enviado. Prepararemos una PR para revisión antes de publicarlo.");
 
       setTimeout(() => {
         submitBtn.disabled = false;
-        updateSubmissionModeUI();
+        submitBtn.textContent = DEFAULT_BUTTON_LABEL;
+        setFormNote(DEFAULT_NOTE);
       }, 1200);
 
       setTimeout(openModal, 300);
     } catch (err) {
       submitBtn.disabled = false;
-      updateSubmissionModeUI();
-      if (submissionMode === "anonymous" && /bad credentials/i.test(err.message)) {
-        setFormNote("El envio sin cuenta no esta disponible ahora mismo. Si tienes GitHub, usa la opcion \"Si, usar mi cuenta\". Si quieres mantener el modo anonimo, hay que renovar el token embebido.", "error");
+      submitBtn.textContent = DEFAULT_BUTTON_LABEL;
+
+      if (/bad credentials/i.test(err.message)) {
+        setFormNote("El formulario no está disponible temporalmente. Inténtalo más tarde.", "error");
         return;
       }
 
@@ -322,17 +254,10 @@ function initForm() {
   });
 }
 
-function initSubmissionMode() {
-  document.querySelectorAll('input[name="submit-mode"]').forEach(input => {
-    input.addEventListener("change", updateSubmissionModeUI);
-  });
-  updateSubmissionModeUI();
-}
-
 /* ===== INIT ===== */
 document.addEventListener("DOMContentLoaded", () => {
   initForm();
-  initSubmissionMode();
+  setFormNote(DEFAULT_NOTE);
   initCharCounter();
   initCopyButtons();
   initHamburger();
