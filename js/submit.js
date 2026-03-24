@@ -1,9 +1,8 @@
 /* ===== DIRECTORIO BTC - submit.js ===== */
 
 const REPO = "VoidHashh/btc-projects";
-const GH_TOKEN = atob("Z2l0aHViX3BhdF8xMUFCVlNPSkEwNU53S1RLMUhia0UyX1dVQmF3dFpNb1gxTFpIUmZ6QjZEQmd0dG9IQ3hGRHBGRUE3TEozN3NSN2VRNlAyV0E2QWVLajBOajJy");
-const DEFAULT_BUTTON_LABEL = "Enviar proyecto →";
-const DEFAULT_NOTE = "Enviaremos tu propuesta desde este formulario y se generará una PR para revisión.";
+const DEFAULT_BUTTON_LABEL = "Abrir en GitHub →";
+const DEFAULT_NOTE = "Se abrirá GitHub en una nueva pestaña con el issue listo. Después se generará una PR para revisión.";
 
 function buildIssuePayload(data) {
   const title = `[Nuevo proyecto] ${data.name}`;
@@ -25,26 +24,27 @@ function buildIssuePayload(data) {
   return { title, body };
 }
 
-/* ===== CREATE GITHUB ISSUE VIA API ===== */
-async function createIssue(data) {
+function buildGitHubIssueURL(data) {
   const { title, body } = buildIssuePayload(data);
-  const res = await fetch(`https://api.github.com/repos/${REPO}/issues`, {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${GH_TOKEN}`,
-      "Accept": "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ title, body, labels: ["nuevo-proyecto"] })
+  const params = new URLSearchParams({
+    title,
+    body,
+    labels: "nuevo-proyecto"
   });
+  return `https://github.com/${REPO}/issues/new?${params.toString()}`;
+}
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `Error ${res.status}`);
+function openGitHubIssue(data) {
+  const issueURL = buildGitHubIssueURL(data);
+  const popup = window.open("", "_blank", "noopener,noreferrer");
+
+  if (!popup) {
+    return false;
   }
 
-  return res.json();
+  popup.opener = null;
+  popup.location.href = issueURL;
+  return true;
 }
 
 /* ===== VALIDATE URL ===== */
@@ -210,47 +210,32 @@ function initForm() {
     if (!valid) return;
 
     const submitBtn = form.querySelector("button[type=submit]");
-    submitBtn.textContent = "Enviando...";
+    submitBtn.textContent = "Abriendo GitHub...";
     submitBtn.disabled = true;
 
-    try {
-      const payload = {
-        name,
-        url,
-        description: desc,
-        category: cat,
-        github,
-        author,
-        free,
-        openSource: oss,
-        language: lang
-      };
+    const payload = {
+      name,
+      url,
+      description: desc,
+      category: cat,
+      github,
+      author,
+      free,
+      openSource: oss,
+      language: lang
+    };
 
-      await createIssue(payload);
-      form.reset();
-      document.getElementById("desc-count").textContent = "0 / 300";
-      document.getElementById("desc-count").classList.remove("warn");
-      submitBtn.textContent = "¡Enviado! ✓";
-      setFormNote("Proyecto enviado. Prepararemos una PR para revisión antes de publicarlo.");
-
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = DEFAULT_BUTTON_LABEL;
-        setFormNote(DEFAULT_NOTE);
-      }, 1200);
-
-      setTimeout(openModal, 300);
-    } catch (err) {
+    const opened = openGitHubIssue(payload);
+    if (!opened) {
       submitBtn.disabled = false;
       submitBtn.textContent = DEFAULT_BUTTON_LABEL;
-
-      if (/bad credentials/i.test(err.message)) {
-        setFormNote("El formulario no está disponible temporalmente. Inténtalo más tarde.", "error");
-        return;
-      }
-
-      setFormNote("Error al enviar: " + err.message + ". Inténtalo de nuevo.", "error");
+      setFormNote("Tu navegador ha bloqueado la nueva pestaña. Permite pop-ups para GitHub y vuelve a intentarlo.", "error");
+      return;
     }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = DEFAULT_BUTTON_LABEL;
+    setFormNote("GitHub ya está abierto en una nueva pestaña. Cuando publiques el issue, se generará una PR para revisión.");
   });
 }
 
