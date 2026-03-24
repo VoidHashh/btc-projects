@@ -79,6 +79,8 @@ function mapLabel(rawLabel) {
   if (label.startsWith("categor")) return "category";
   if (label.startsWith("github")) return "github";
   if (label.startsWith("autor")) return "author";
+  if (label === "x") return "x";
+  if (label.startsWith("nostr")) return "nostr";
   if (label.startsWith("gratuito")) return "free";
   if (label.startsWith("open source")) return "openSource";
   if (label.startsWith("idioma")) return "language";
@@ -147,6 +149,8 @@ const description = parsed.description ?? "";
 const category = normalizeLabel(parsed.category ?? "");
 const github = normalizeOptional(parsed.github ?? "");
 const author = normalizeOptional(parsed.author ?? "");
+const x = normalizeOptional(parsed.x ?? "");
+const nostr = normalizeOptional(parsed.nostr ?? "");
 const free = parseBoolean(parsed.free ?? "");
 const openSource = parseBoolean(parsed.openSource ?? "");
 const language = normalizeLabel(parsed.language ?? "");
@@ -171,6 +175,8 @@ if (missingFields.length > 0) {
 try {
   validateUrl(url, "URL");
   if (github) validateUrl(github, "GitHub");
+  if (x) validateUrl(x, "X");
+  if (nostr) validateUrl(nostr, "Nostr");
 } catch (error) {
   finish("invalid", error.message);
 }
@@ -212,6 +218,8 @@ const newProject = {
   category,
   tags: [],
   author,
+  x,
+  nostr,
   language,
   free,
   open_source: openSource,

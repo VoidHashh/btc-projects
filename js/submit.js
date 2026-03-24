@@ -4,6 +4,9 @@ const SUBMIT_API_URL =
   window.DIRECTORIO_CONFIG?.submitApiUrl?.trim() || "/api/submit-project";
 const DEFAULT_BUTTON_LABEL = "Enviar proyecto →";
 const DEFAULT_NOTE = "Enviaremos tu propuesta desde este formulario y se generará una PR para revisión.";
+const RETURN_HOME_DELAY_MS = 2200;
+
+let returnHomeTimer = null;
 
 async function submitProject(data) {
   const res = await fetch(SUBMIT_API_URL, {
@@ -115,6 +118,13 @@ function closeModal() {
   document.getElementById("donate-modal")?.classList.remove("open");
 }
 
+function scheduleReturnHome() {
+  window.clearTimeout(returnHomeTimer);
+  returnHomeTimer = window.setTimeout(() => {
+    window.location.href = "index.html";
+  }, RETURN_HOME_DELAY_MS);
+}
+
 /* ===== CHAR COUNTER ===== */
 function initCharCounter() {
   const desc = document.getElementById("proj-desc");
@@ -156,6 +166,8 @@ function initForm() {
     const cat = document.getElementById("proj-cat").value;
     const github = document.getElementById("proj-github").value.trim();
     const author = document.getElementById("proj-author").value.trim();
+    const x = document.getElementById("proj-x").value.trim();
+    const nostr = document.getElementById("proj-nostr").value.trim();
     const lang = document.getElementById("proj-lang").value;
     const free = document.getElementById("proj-free").checked;
     const oss = document.getElementById("proj-oss").checked;
@@ -184,6 +196,14 @@ function initForm() {
       showError("proj-github", "Introduce una URL de GitHub válida.");
       valid = false;
     }
+    if (x && !isValidURL(x)) {
+      showError("proj-x", "Introduce una URL de X válida.");
+      valid = false;
+    }
+    if (nostr && !isValidURL(nostr)) {
+      showError("proj-nostr", "Introduce una URL de Nostr válida.");
+      valid = false;
+    }
     if (!valid) return;
 
     const submitBtn = form.querySelector("button[type=submit]");
@@ -198,6 +218,8 @@ function initForm() {
         category: cat,
         github,
         author,
+        x,
+        nostr,
         free,
         openSource: oss,
         language: lang
@@ -208,7 +230,7 @@ function initForm() {
       document.getElementById("desc-count").textContent = "0 / 300";
       document.getElementById("desc-count").classList.remove("warn");
       submitBtn.textContent = "¡Enviado! ✓";
-      setFormNote("Proyecto enviado. Prepararemos una PR para revisión antes de publicarlo.");
+      setFormNote("Proyecto enviado. Prepararemos una PR para revisión antes de publicarlo. Volviendo al inicio...");
 
       setTimeout(() => {
         submitBtn.disabled = false;
@@ -217,6 +239,7 @@ function initForm() {
       }, 1200);
 
       setTimeout(openModal, 300);
+      scheduleReturnHome();
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.textContent = DEFAULT_BUTTON_LABEL;

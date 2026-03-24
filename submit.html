@@ -13,7 +13,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260324e">
+  <link rel="stylesheet" href="css/style.css?v=20260324g">
 </head>
 <body>
 
@@ -95,6 +95,17 @@
           </div>
         </div>
 
+        <div class="form-row">
+          <div class="form-group">
+            <label for="proj-x">Perfil X <span style="color:var(--text-muted);font-weight:400;">(opcional)</span></label>
+            <input type="url" id="proj-x" placeholder="https://x.com/tuusuario">
+          </div>
+          <div class="form-group">
+            <label for="proj-nostr">Perfil Nostr <span style="color:var(--text-muted);font-weight:400;">(opcional)</span></label>
+            <input type="url" id="proj-nostr" placeholder="https://njump.me/tuperfil">
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="proj-lang">Idioma <span class="req">*</span></label>
           <select id="proj-lang" required>
@@ -122,11 +133,18 @@
     </div>
   </div>
 
+  <footer>
+    <p>Directorio BTC &mdash; Proyecto abierto de la comunidad</p>
+    <p>Parte del ecosistema <a href="https://aprendebtc.com" target="_blank" rel="noopener">aprendeBTC</a> &middot; <a href="https://github.com/VoidHashh/btc-projects" target="_blank" rel="noopener">GitHub</a></p>
+    <p>Contacto: <a href="https://x.com/0x17fx" target="_blank" rel="noopener">X</a> &middot; <a href="https://njump.me/npub19yw2tgzv5tv7klsl5ffsdzuyuqedq7mnyzd08c2lqpmu70kt7vnqp6wvk3" target="_blank" rel="noopener">Nostr</a></p>
+    <p><a href="donar.html">Apoya con sats ⚡</a></p>
+  </footer>
+
   <!-- MODAL DONATIVO -->
   <div class="modal-overlay" id="donate-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
       <button class="modal-close" id="modal-close" aria-label="Cerrar">✕</button>
-      <h2 id="modal-title">¡Gracias por contribuir! ⚡</h2>
+      <h2 id="modal-title">¡Gracias por contribuir! <span class="modal-btc-mark">&#8383;</span></h2>
       <p class="modal-sub">Si quieres apoyar el mantenimiento de este directorio, puedes enviar unos sats.</p>
 
       <div class="donate-block">
@@ -170,7 +188,7 @@
     }, window.DIRECTORIO_CONFIG || {});
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="js/donation-ui.js?v=20260324a"></script>
-  <script src="js/submit.js?v=20260324e"></script>
+  <script src="js/donation-ui.js?v=20260324g"></script>
+  <script src="js/submit.js?v=20260324g"></script>
 </body>
 </html>

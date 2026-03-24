@@ -123,6 +123,8 @@ function buildIssuePayload(data) {
 - **Categoría:** ${data.category}
 - **GitHub:** ${data.github || "N/A"}
 - **Autor:** ${data.author || "N/A"}
+- **X:** ${data.x || "N/A"}
+- **Nostr:** ${data.nostr || "N/A"}
 - **Gratuito:** ${data.free ? "Sí" : "No"}
 - **Open Source:** ${data.openSource ? "Sí" : "No"}
 - **Idioma:** ${data.language}
@@ -172,6 +174,8 @@ function validatePayload(payload) {
   const category = ensureString(payload.category, "Categoría", 80);
   const github = optionalString(payload.github, 300);
   const author = optionalString(payload.author, 80);
+  const x = optionalString(payload.x, 300);
+  const nostr = optionalString(payload.nostr, 300);
   const language = ensureString(payload.language, "Idioma", 20);
   const free = ensureBoolean(payload.free, "Gratuito");
   const openSource = ensureBoolean(payload.openSource, "Open Source");
@@ -191,6 +195,8 @@ function validatePayload(payload) {
     category,
     github: github ? ensureUrl(github, "GitHub") : "",
     author,
+    x: x ? ensureUrl(x, "X") : "",
+    nostr: nostr ? ensureUrl(nostr, "Nostr") : "",
     language,
     free,
     openSource

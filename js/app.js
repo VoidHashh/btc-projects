@@ -170,6 +170,15 @@ function renderProjects(projects) {
 
     const githubLink = p.github
       ? `<a href="${escapeHtml(p.github)}" target="_blank" rel="noopener" class="card-github" aria-label="Ver en GitHub">GH</a>` : "";
+    const socialLinks = buildSocialLinks(p);
+    const authorBlock = (p.author || socialLinks)
+      ? `
+        <div class="card-meta">
+          ${p.author ? `<span class="card-author">${escapeHtml(p.author)}</span>` : ""}
+          ${socialLinks ? `<div class="card-socials">${socialLinks}</div>` : ""}
+        </div>
+      `
+      : `<span class="card-author"></span>`;
 
     card.innerHTML = `
       <div class="card-header">
@@ -179,7 +188,7 @@ function renderProjects(projects) {
       <h3 class="card-title">${escapeHtml(p.name)}</h3>
       <p class="card-description">${escapeHtml(p.description)}</p>
       <div class="card-footer">
-        <span class="card-author">${escapeHtml(p.author || "")}</span>
+        ${authorBlock}
         <div class="card-links">
           ${githubLink}
           <a href="${escapeHtml(p.url)}" target="_blank" rel="noopener" class="card-visit">Visitar →</a>
@@ -204,6 +213,52 @@ function escapeHtml(str) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function buildSocialLinks(project) {
+  const links = [];
+
+  if (project.x) {
+    links.push(
+      `<a href="${escapeHtml(project.x)}" target="_blank" rel="noopener" class="card-social-link" aria-label="Perfil en X">` +
+      getXIcon() +
+      "</a>"
+    );
+  }
+
+  if (project.nostr) {
+    links.push(
+      `<a href="${escapeHtml(project.nostr)}" target="_blank" rel="noopener" class="card-social-link" aria-label="Perfil en Nostr">` +
+      getNostrIcon() +
+      "</a>"
+    );
+  }
+
+  return links.join("");
+}
+
+function getXIcon() {
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M18.244 2h3.064l-6.69 7.645L22.488 22h-6.164l-4.829-7.491L4.94 22H1.874l7.156-8.179L1.488 2h6.32l4.365 6.846L18.244 2Z"/>
+    </svg>
+  `;
+}
+
+function getNostrIcon() {
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="2.4"/>
+      <circle cx="12" cy="4" r="1.6"/>
+      <circle cx="17.66" cy="6.34" r="1.6"/>
+      <circle cx="20" cy="12" r="1.6"/>
+      <circle cx="17.66" cy="17.66" r="1.6"/>
+      <circle cx="12" cy="20" r="1.6"/>
+      <circle cx="6.34" cy="17.66" r="1.6"/>
+      <circle cx="4" cy="12" r="1.6"/>
+      <circle cx="6.34" cy="6.34" r="1.6"/>
+    </svg>
+  `;
 }
 
 /* ===== DEBOUNCE ===== */
