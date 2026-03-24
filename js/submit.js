@@ -36,14 +36,16 @@ function buildGitHubIssueURL(data) {
 
 function openGitHubIssue(data) {
   const issueURL = buildGitHubIssueURL(data);
-  const popup = window.open("", "_blank", "noopener,noreferrer");
+  const popup = window.open(issueURL, "_blank");
 
   if (!popup) {
     return false;
   }
 
-  popup.opener = null;
-  popup.location.href = issueURL;
+  try {
+    popup.opener = null;
+  } catch {}
+
   return true;
 }
 
