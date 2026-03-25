@@ -15,6 +15,7 @@ const ALLOWED_CATEGORIES = new Set([
 ]);
 
 const ALLOWED_LANGUAGES = new Set(["es", "en", "multi"]);
+const MAX_CATEGORIES = 3;
 
 function json(data, status = 200, corsHeaders = {}) {
   return new Response(JSON.stringify(data), {
@@ -127,6 +128,10 @@ function ensureCategories(value) {
 
   if (categories.some(category => !ALLOWED_CATEGORIES.has(category))) {
     throw new Error("Una de las categorías no es válida.");
+  }
+
+  if (categories.length > MAX_CATEGORIES) {
+    throw new Error(`Puedes seleccionar como máximo ${MAX_CATEGORIES} categorías.`);
   }
 
   return categories;

@@ -5,6 +5,7 @@ const SUBMIT_API_URL =
 const DEFAULT_BUTTON_LABEL = "Enviar proyecto →";
 const DEFAULT_NOTE = "Enviaremos tu propuesta desde este formulario y se generará una PR para revisión.";
 const RETURN_HOME_DELAY_MS = 2200;
+const MAX_CATEGORIES = 3;
 
 let returnHomeTimer = null;
 
@@ -12,7 +13,7 @@ async function submitProject(data) {
   const res = await fetch(SUBMIT_API_URL, {
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
@@ -27,7 +28,6 @@ async function submitProject(data) {
   return payload;
 }
 
-/* ===== VALIDATE URL ===== */
 function isValidURL(str) {
   try {
     new URL(str);
@@ -37,7 +37,6 @@ function isValidURL(str) {
   }
 }
 
-/* ===== SHOW ERROR ===== */
 function showError(fieldId, msg) {
   const field = document.getElementById(fieldId);
   if (!field) return;
@@ -55,7 +54,7 @@ function showError(fieldId, msg) {
 
 function clearErrors() {
   document.querySelectorAll(".field-error").forEach(e => e.remove());
-  document.querySelectorAll("input, textarea, select").forEach(el => {
+  document.querySelectorAll("input, textarea, select, .category-picker").forEach(el => {
     el.style.borderColor = "";
   });
 }
@@ -76,7 +75,6 @@ function setFormNote(message, variant = "default") {
   note.style.borderColor = "rgba(247,147,26,0.2)";
 }
 
-/* ===== COPY TO CLIPBOARD ===== */
 function initCopyButtons() {
   document.querySelectorAll(".btn-copy[data-copy]").forEach(btn => {
     btn.addEventListener("click", async () => {
@@ -105,7 +103,6 @@ function initCopyButtons() {
   });
 }
 
-/* ===== MODAL ===== */
 function openModal() {
   const modal = document.getElementById("donate-modal");
   if (modal) {
@@ -125,7 +122,6 @@ function scheduleReturnHome() {
   }, RETURN_HOME_DELAY_MS);
 }
 
-/* ===== CHAR COUNTER ===== */
 function initCharCounter() {
   const desc = document.getElementById("proj-desc");
   const counter = document.getElementById("desc-count");
@@ -138,7 +134,6 @@ function initCharCounter() {
   });
 }
 
-/* ===== HAMBURGER ===== */
 function initHamburger() {
   const btn = document.getElementById("hamburger");
   const menu = document.getElementById("mobile-menu");
@@ -150,7 +145,23 @@ function initHamburger() {
   });
 }
 
-/* ===== FORM SUBMIT ===== */
+function getSelectedCategories() {
+  return Array.from(document.querySelectorAll('input[name="proj-categories"]:checked'))
+    .map(input => input.value);
+}
+
+function initCategoryLimit() {
+  document.querySelectorAll('input[name="proj-categories"]').forEach(input => {
+    input.addEventListener("change", () => {
+      const categories = getSelectedCategories();
+      if (categories.length <= MAX_CATEGORIES) return;
+
+      input.checked = false;
+      setFormNote(`Puedes elegir como máximo ${MAX_CATEGORIES} categorías.`, "error");
+    });
+  });
+}
+
 function initForm() {
   const form = document.getElementById("submit-form");
   if (!form) return;
@@ -163,8 +174,7 @@ function initForm() {
     const name = document.getElementById("proj-name").value.trim();
     const url = document.getElementById("proj-url").value.trim();
     const desc = document.getElementById("proj-desc").value.trim();
-    const categories = Array.from(document.querySelectorAll('input[name="proj-categories"]:checked'))
-      .map(input => input.value);
+    const categories = getSelectedCategories();
     const github = document.getElementById("proj-github").value.trim();
     const author = document.getElementById("proj-author").value.trim();
     const x = document.getElementById("proj-x").value.trim();
@@ -191,6 +201,9 @@ function initForm() {
     }
     if (categories.length === 0) {
       showError("proj-cats", "Selecciona al menos una categoría.");
+      valid = false;
+    } else if (categories.length > MAX_CATEGORIES) {
+      showError("proj-cats", `Puedes elegir como máximo ${MAX_CATEGORIES} categorías.`);
       valid = false;
     }
     if (github && !isValidURL(github)) {
@@ -250,18 +263,18 @@ function initForm() {
         return;
       }
 
-      setFormNote("Error al enviar: " + err.message + ". Inténtalo de nuevo.", "error");
+      setFormNote(`Error al enviar: ${err.message}. Inténtalo de nuevo.`, "error");
     }
   });
 }
 
-/* ===== INIT ===== */
 document.addEventListener("DOMContentLoaded", () => {
   initForm();
   setFormNote(DEFAULT_NOTE);
   initCharCounter();
   initCopyButtons();
   initHamburger();
+  initCategoryLimit();
 
   document.getElementById("modal-close")?.addEventListener("click", closeModal);
   document.getElementById("donate-modal")?.addEventListener("click", e => {

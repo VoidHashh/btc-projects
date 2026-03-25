@@ -21,6 +21,7 @@ const ALLOWED_CATEGORIES = new Set([
 ]);
 
 const ALLOWED_LANGUAGES = new Set(["es", "en", "multi"]);
+const MAX_CATEGORIES = 3;
 
 function setOutput(name, value) {
   if (!outputPath) return;
@@ -204,6 +205,13 @@ if (invalidCategories.length > 0) {
   finish(
     "invalid",
     `Estas categorías no son válidas: ${invalidCategories.join(", ")}. Usa solo categorías soportadas en el formulario.`
+  );
+}
+
+if (categories.length > MAX_CATEGORIES) {
+  finish(
+    "invalid",
+    `Puedes seleccionar como máximo ${MAX_CATEGORIES} categorías. Edita el issue y vuelve a intentarlo.`
   );
 }
 
