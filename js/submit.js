@@ -4,10 +4,8 @@ const SUBMIT_API_URL =
   window.DIRECTORIO_CONFIG?.submitApiUrl?.trim() || "/api/submit-project";
 const DEFAULT_BUTTON_LABEL = "Enviar proyecto →";
 const DEFAULT_NOTE = "Enviaremos tu propuesta desde este formulario y se generará una PR para revisión.";
-const RETURN_HOME_DELAY_MS = 2200;
+const DONATION_REDIRECT_PATH = "donar.html";
 const MAX_CATEGORIES = 3;
-
-let returnHomeTimer = null;
 
 async function submitProject(data) {
   const res = await fetch(SUBMIT_API_URL, {
@@ -75,53 +73,6 @@ function setFormNote(message, variant = "default") {
   note.style.borderColor = "rgba(247,147,26,0.2)";
 }
 
-function initCopyButtons() {
-  document.querySelectorAll(".btn-copy[data-copy]").forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const text = btn.dataset.copy;
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-      }
-
-      const original = btn.textContent;
-      btn.textContent = "¡Copiado!";
-      btn.classList.add("copied");
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.classList.remove("copied");
-      }, 2000);
-    });
-  });
-}
-
-function openModal() {
-  const modal = document.getElementById("donate-modal");
-  if (modal) {
-    modal.classList.add("open");
-    document.getElementById("modal-close")?.focus();
-  }
-}
-
-function closeModal() {
-  document.getElementById("donate-modal")?.classList.remove("open");
-}
-
-function scheduleReturnHome() {
-  window.clearTimeout(returnHomeTimer);
-  returnHomeTimer = window.setTimeout(() => {
-    window.location.href = "index.html";
-  }, RETURN_HOME_DELAY_MS);
-}
-
 function initCharCounter() {
   const desc = document.getElementById("proj-desc");
   const counter = document.getElementById("desc-count");
@@ -160,6 +111,19 @@ function initCategoryLimit() {
       setFormNote(`Puedes elegir como máximo ${MAX_CATEGORIES} categorías.`, "error");
     });
   });
+}
+
+function buildDonationRedirectUrl(projectName, issueNumber) {
+  const params = new URLSearchParams({
+    from: "submit",
+    project: projectName
+  });
+
+  if (issueNumber) {
+    params.set("issue", String(issueNumber));
+  }
+
+  return `${DONATION_REDIRECT_PATH}?${params.toString()}`;
 }
 
 function initForm() {
@@ -239,21 +203,9 @@ function initForm() {
         language: lang
       };
 
-      await submitProject(payload);
-      form.reset();
-      document.getElementById("desc-count").textContent = "0 / 300";
-      document.getElementById("desc-count").classList.remove("warn");
-      submitBtn.textContent = "¡Enviado! ✓";
-      setFormNote("Proyecto enviado. Prepararemos una PR para revisión antes de publicarlo. Volviendo al inicio...");
-
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = DEFAULT_BUTTON_LABEL;
-        setFormNote(DEFAULT_NOTE);
-      }, 1200);
-
-      setTimeout(openModal, 300);
-      scheduleReturnHome();
+      const result = await submitProject(payload);
+      submitBtn.textContent = "Redirigiendo...";
+      window.location.href = buildDonationRedirectUrl(name, result.issueNumber);
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.textContent = DEFAULT_BUTTON_LABEL;
@@ -272,15 +224,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initForm();
   setFormNote(DEFAULT_NOTE);
   initCharCounter();
-  initCopyButtons();
   initHamburger();
   initCategoryLimit();
-
-  document.getElementById("modal-close")?.addEventListener("click", closeModal);
-  document.getElementById("donate-modal")?.addEventListener("click", e => {
-    if (e.target === e.currentTarget) closeModal();
-  });
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") closeModal();
-  });
 });

@@ -47,6 +47,12 @@
 
   <!-- CONTENT -->
   <div class="page-content">
+    <div
+      class="info-section hidden"
+      id="donate-thanks"
+      aria-live="polite"
+      style="border-color:rgba(247,147,26,0.28);background:linear-gradient(180deg,rgba(247,147,26,0.08),rgba(247,147,26,0.03));"
+    ></div>
 
     <!-- LIGHTNING (recomendado) -->
     <div class="info-section">
@@ -128,6 +134,28 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="js/donation-ui.js?v=20260324h"></script>
   <script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("from") === "submit") {
+      const thanks = document.getElementById("donate-thanks");
+      const project = params.get("project");
+      const issue = params.get("issue");
+      const title = document.createElement("h2");
+      const text = document.createElement("p");
+
+      title.textContent = "Gracias por contribuir";
+      if (project && issue) {
+        text.textContent = `Tu proyecto "${project}" ya se ha enviado para revisión como issue #${issue}. Si te apetece apoyar el directorio, puedes dejar unos sats aquí.`;
+      } else if (project) {
+        text.textContent = `Tu proyecto "${project}" ya se ha enviado para revisión. Si te apetece apoyar el directorio, puedes dejar unos sats aquí.`;
+      } else {
+        text.textContent = "Tu proyecto ya se ha enviado para revisión. Si te apetece apoyar el directorio, puedes dejar unos sats aquí.";
+      }
+
+      thanks.append(title, text);
+      thanks.classList.remove("hidden");
+      window.history.replaceState({}, document.title, "donar.html");
+    }
+
     // Hamburger
     document.getElementById("hamburger").addEventListener("click", () => {
       document.getElementById("mobile-menu").classList.toggle("open");
