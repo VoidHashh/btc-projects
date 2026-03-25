@@ -134,5 +134,27 @@
     "open_source": true,
     "github": "https://github.com/VoidHashh/aprendebtc.git",
     "date_added": "2026-03-24"
+  },
+  {
+    "id": "008",
+    "name": "POSSAT",
+    "description": "El TPV de Bitcoin descentralizado. Solo usamos tu xpub — nunca tocamos tus claves privadas. Sin intermediarios, sin comisiones. Integración con WooCommerce.",
+    "url": "https://possat.com/",
+    "categories": [
+      "hardware-wallets",
+      "privacidad",
+      "nodos",
+      "wallets-software",
+      "otro"
+    ],
+    "tags": [],
+    "author": "Alejandro 'Holwens'",
+    "x": "https://x.com/HolwensC",
+    "nostr": "",
+    "language": "multi",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-03-25"
   }
 ]
