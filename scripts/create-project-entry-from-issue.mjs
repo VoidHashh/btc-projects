@@ -113,10 +113,18 @@ function parseIssueBody(body) {
 }
 
 function normalizeCategories(value) {
+  function normalizeCategory(item) {
+    const normalized = normalizeLabel(item);
+    if (!normalized) return "";
+
+    const slug = normalized.replace(/\s+/g, "-");
+    return slug;
+  }
+
   return [...new Set(
     value
       .split(",")
-      .map(item => normalizeLabel(item))
+      .map(normalizeCategory)
       .filter(Boolean)
   )];
 }
