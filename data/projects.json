@@ -142,10 +142,8 @@
     "url": "https://possat.com/",
     "categories": [
       "hardware-wallets",
-      "privacidad",
-      "nodos",
-      "wallets-software",
-      "otro"
+      "privacidad",     
+      "wallets-software",      
     ],
     "tags": [],
     "author": "Alejandro 'Holwens'",
