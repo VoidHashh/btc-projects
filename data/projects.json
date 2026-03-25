@@ -154,5 +154,25 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-03-25"
+  },
+  {
+    "id": "009",
+    "name": "8gwifi.org",
+    "description": "Free Online Tools Professional-grade tools for cryptography, networking, DevOps, mathematics, finance, chemistry, and more. All free, all online, no registration. + 200 Tools / +60 Categories / 100% Free",
+    "url": "https://8gwifi.org/",
+    "categories": [
+      "privacidad",
+      "educacion",
+      "otro"
+    ],
+    "tags": [],
+    "author": "Anish",
+    "x": "https://twitter.com/anish2good",
+    "nostr": "",
+    "language": "en",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-03-25"
   }
 ]
