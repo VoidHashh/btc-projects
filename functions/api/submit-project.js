@@ -106,7 +106,13 @@ function ensureBoolean(value, fieldName) {
 }
 
 function ensureUrl(value, fieldName) {
-  const parsed = new URL(value);
+  const normalizedValue = /^[a-z][a-z0-9+.-]*:\/\//i.test(value)
+    ? value
+    : /^[^\s/]+\.[^\s]+/i.test(value)
+      ? `https://${value}`
+      : value;
+
+  const parsed = new URL(normalizedValue);
   if (!["http:", "https:"].includes(parsed.protocol)) {
     throw new Error(`El campo "${fieldName}" debe usar http o https.`);
   }

@@ -26,10 +26,22 @@ async function submitProject(data) {
   return payload;
 }
 
+function normalizeUrlInput(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+  if (/^[^\s/]+\.[^\s]+/i.test(trimmed)) {
+    return `https://${trimmed}`;
+  }
+  return trimmed;
+}
+
 function isValidURL(str) {
   try {
-    new URL(str);
-    return true;
+    const parsed = new URL(normalizeUrlInput(str));
+    return ["http:", "https:"].includes(parsed.protocol);
   } catch {
     return false;
   }
@@ -101,6 +113,20 @@ function getSelectedCategories() {
     .map(input => input.value);
 }
 
+function initUrlNormalization() {
+  ["proj-url", "proj-github", "proj-x", "proj-nostr"].forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+
+    field.addEventListener("blur", () => {
+      const normalized = normalizeUrlInput(field.value);
+      if (normalized) {
+        field.value = normalized;
+      }
+    });
+  });
+}
+
 function initCategoryLimit() {
   document.querySelectorAll('input[name="proj-categories"]').forEach(input => {
     input.addEventListener("change", () => {
@@ -136,16 +162,25 @@ function initForm() {
     setFormNote(DEFAULT_NOTE);
 
     const name = document.getElementById("proj-name").value.trim();
-    const url = document.getElementById("proj-url").value.trim();
+    const urlField = document.getElementById("proj-url");
+    const githubField = document.getElementById("proj-github");
+    const xField = document.getElementById("proj-x");
+    const nostrField = document.getElementById("proj-nostr");
+    const url = normalizeUrlInput(urlField.value);
     const desc = document.getElementById("proj-desc").value.trim();
     const categories = getSelectedCategories();
-    const github = document.getElementById("proj-github").value.trim();
+    const github = normalizeUrlInput(githubField.value);
     const author = document.getElementById("proj-author").value.trim();
-    const x = document.getElementById("proj-x").value.trim();
-    const nostr = document.getElementById("proj-nostr").value.trim();
+    const x = normalizeUrlInput(xField.value);
+    const nostr = normalizeUrlInput(nostrField.value);
     const lang = document.getElementById("proj-lang").value;
     const free = document.getElementById("proj-free").checked;
     const oss = document.getElementById("proj-oss").checked;
+
+    urlField.value = url;
+    githubField.value = github;
+    xField.value = x;
+    nostrField.value = nostr;
 
     let valid = true;
     if (!name) {
@@ -156,7 +191,7 @@ function initForm() {
       showError("proj-url", "La URL es obligatoria.");
       valid = false;
     } else if (!isValidURL(url)) {
-      showError("proj-url", "Introduce una URL válida (con https://).");
+      showError("proj-url", "Introduce una URL válida.");
       valid = false;
     }
     if (!desc) {
@@ -225,5 +260,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setFormNote(DEFAULT_NOTE);
   initCharCounter();
   initHamburger();
+  initUrlNormalization();
   initCategoryLimit();
 });

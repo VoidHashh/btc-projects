@@ -131,14 +131,20 @@ function normalizeCategories(value) {
 }
 
 function normalizeUrl(value) {
-  const url = new URL(value);
+  const normalizedValue = /^[a-z][a-z0-9+.-]*:\/\//i.test(value)
+    ? value
+    : /^[^\s/]+\.[^\s]+/i.test(value)
+      ? `https://${value}`
+      : value;
+
+  const url = new URL(normalizedValue);
   const pathname = url.pathname.replace(/\/+$/, "");
   return `${url.protocol}//${url.hostname.toLowerCase()}${pathname}${url.search}`;
 }
 
 function validateUrl(value, fieldName) {
   try {
-    new URL(value);
+    normalizeUrl(value);
   } catch {
     throw new Error(`El campo "${fieldName}" no contiene una URL válida.`);
   }

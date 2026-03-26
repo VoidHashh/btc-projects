@@ -57,7 +57,7 @@
 
         <div class="form-group">
           <label for="proj-url">URL del proyecto <span class="req">*</span></label>
-          <input type="url" id="proj-url" placeholder="https://..." required>
+          <input type="text" id="proj-url" placeholder="ejemplo.com" inputmode="url" autocapitalize="off" spellcheck="false" required>
         </div>
 
         <div class="form-group">
@@ -87,7 +87,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="proj-github">URL GitHub <span style="color:var(--text-muted);font-weight:400;">(opcional)</span></label>
-            <input type="url" id="proj-github" placeholder="https://github.com/...">
+            <input type="text" id="proj-github" placeholder="github.com/usuario/repositorio" inputmode="url" autocapitalize="off" spellcheck="false">
           </div>
           <div class="form-group">
             <label for="proj-author">Autor / Contacto <span style="color:var(--text-muted);font-weight:400;">(opcional)</span></label>
@@ -98,11 +98,11 @@
         <div class="form-row">
           <div class="form-group">
             <label for="proj-x">Perfil X <span style="color:var(--text-muted);font-weight:400;">(opcional)</span></label>
-            <input type="url" id="proj-x" placeholder="https://x.com/tuusuario">
+            <input type="text" id="proj-x" placeholder="x.com/tuusuario" inputmode="url" autocapitalize="off" spellcheck="false">
           </div>
           <div class="form-group">
             <label for="proj-nostr">Perfil Nostr <span style="color:var(--text-muted);font-weight:400;">(opcional)</span></label>
-            <input type="url" id="proj-nostr" placeholder="https://njump.me/tuperfil">
+            <input type="text" id="proj-nostr" placeholder="njump.me/tuperfil" inputmode="url" autocapitalize="off" spellcheck="false">
           </div>
         </div>
 
@@ -145,6 +145,6 @@
       // submitApiUrl: "https://tu-endpoint-seguro.example.com/api/submit-project"
     }, window.DIRECTORIO_CONFIG || {});
   </script>
-  <script src="js/submit.js?v=20260325b"></script>
+  <script src="js/submit.js?v=20260326a"></script>
 </body>
 </html>
