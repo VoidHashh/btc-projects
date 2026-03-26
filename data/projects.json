@@ -174,5 +174,23 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-03-25"
+  },
+  {
+    "id": "010",
+    "name": "Btc Market",
+    "description": "Comprar subscripciones y servicios con Bitcoin (y a mejores precios 😏)",
+    "url": "https://btcmarket.cc/",
+    "categories": [
+      "otro"
+    ],
+    "tags": [],
+    "author": "Telegram: @CryptoValenciaES",
+    "x": "",
+    "nostr": "",
+    "language": "es",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-03-26"
   }
 ]
