@@ -212,5 +212,24 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-03-27"
+  },
+  {
+    "id": "012",
+    "name": "Calculadora Solar para Minería Bitcoin 24/7",
+    "description": "¿Es rentable minar con paneles solares y baterías? Descúbrelo con tus propios datos.",
+    "url": "https://startminingnow.es/calculadora-solar-mineria/",
+    "categories": [
+      "educacion"
+    ],
+    "tags": [],
+    "author": "Marcos Reviews",
+    "x": "https://x.com/MarcosReviews",
+    "telegram": "https://t.me/@MarcosReviews",
+    "nostr": "https://njump.me/npub10uvgrxg939m2cz87nkh5s8gt768zwnm97q9gu5n8udna25gyyrlqppcsk5",
+    "language": "es",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-03-27"
   }
 ]
