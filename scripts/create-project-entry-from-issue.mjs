@@ -43,6 +43,18 @@ function normalizeOptional(value) {
   return value.trim();
 }
 
+function normalizeNostrInput(value) {
+  const trimmed = normalizeOptional(value);
+  if (!trimmed) return "";
+
+  const match = trimmed.match(/^(?:nostr:)?((?:npub|nprofile)1[023456789acdefghjklmnpqrstuvwxyz]+)$/i);
+  if (match) {
+    return `https://njump.me/${match[1].toLowerCase()}`;
+  }
+
+  return trimmed;
+}
+
 function parseBoolean(value) {
   const normalized = normalizeLabel(value);
   if (["si", "s", "true", "yes"].includes(normalized)) return true;
@@ -81,6 +93,7 @@ function mapLabel(rawLabel) {
   if (label.startsWith("github")) return "github";
   if (label.startsWith("autor")) return "author";
   if (label === "x") return "x";
+  if (label.startsWith("telegram")) return "telegram";
   if (label.startsWith("nostr")) return "nostr";
   if (label.startsWith("gratuito")) return "free";
   if (label.startsWith("open source")) return "openSource";
@@ -174,7 +187,8 @@ const categories = normalizeCategories(parsed.categories ?? parsed.category ?? "
 const github = normalizeOptional(parsed.github ?? "");
 const author = normalizeOptional(parsed.author ?? "");
 const x = normalizeOptional(parsed.x ?? "");
-const nostr = normalizeOptional(parsed.nostr ?? "");
+const telegram = normalizeOptional(parsed.telegram ?? "");
+const nostr = normalizeNostrInput(parsed.nostr ?? "");
 const free = parseBoolean(parsed.free ?? "");
 const openSource = parseBoolean(parsed.openSource ?? "");
 const language = normalizeLabel(parsed.language ?? "");
@@ -200,6 +214,7 @@ try {
   validateUrl(url, "URL");
   if (github) validateUrl(github, "GitHub");
   if (x) validateUrl(x, "X");
+  if (telegram) validateUrl(telegram, "Telegram");
   if (nostr) validateUrl(nostr, "Nostr");
 } catch (error) {
   finish("invalid", error.message);
@@ -252,6 +267,7 @@ const newProject = {
   tags: [],
   author,
   x,
+  telegram,
   nostr,
   language,
   free,

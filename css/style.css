@@ -758,6 +758,10 @@ footer a:hover { color: var(--accent); }
   gap: 16px;
 }
 
+.form-row.form-row-socials {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .form-checks {
   display: flex;
   gap: 24px;
@@ -1113,6 +1117,7 @@ footer a:hover { color: var(--accent); }
     grid-template-columns: 1fr;
   }
   .form-row { grid-template-columns: 1fr; }
+  .form-row.form-row-socials { grid-template-columns: 1fr; }
   .category-picker { grid-template-columns: 1fr; }
 
   .form-wrap { padding: 20px 16px; }

@@ -221,31 +221,41 @@ function escapeHtml(str) {
 }
 
 function buildSocialLinks(project) {
-  const links = [];
-
-  if (project.x) {
-    links.push(
-      `<a href="${escapeHtml(project.x)}" target="_blank" rel="noopener" class="card-social-link" aria-label="Perfil en X">` +
-      getXIcon() +
+  return [
+    { url: project.x, label: "Perfil en X", icon: getXIcon() },
+    { url: project.telegram, label: "Perfil en Telegram", icon: getTelegramIcon() },
+    { url: normalizeNostrLink(project.nostr), label: "Perfil en Nostr", icon: getNostrIcon() }
+  ]
+    .filter(link => link.url)
+    .map(link =>
+      `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener" class="card-social-link" aria-label="${link.label}">` +
+      link.icon +
       "</a>"
-    );
-  }
-
-  if (project.nostr) {
-    links.push(
-      `<a href="${escapeHtml(project.nostr)}" target="_blank" rel="noopener" class="card-social-link" aria-label="Perfil en Nostr">` +
-      getNostrIcon() +
-      "</a>"
-    );
-  }
-
-  return links.join("");
+    )
+    .join("");
 }
 
 function getXIcon() {
   return `
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M18.244 2h3.064l-6.69 7.645L22.488 22h-6.164l-4.829-7.491L4.94 22H1.874l7.156-8.179L1.488 2h6.32l4.365 6.846L18.244 2Z"/>
+    </svg>
+  `;
+}
+
+function normalizeNostrLink(value) {
+  if (!value) return "";
+
+  const trimmed = String(value).trim();
+  const match = trimmed.match(/^(?:nostr:)?((?:npub|nprofile)1[023456789acdefghjklmnpqrstuvwxyz]+)$/i);
+
+  return match ? `https://njump.me/${match[1].toLowerCase()}` : trimmed;
+}
+
+function getTelegramIcon() {
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21.44 4.71 18.32 19.4c-.24 1.04-.87 1.3-1.76.81l-4.87-3.59-2.35 2.26c-.26.26-.48.48-.98.48l.35-4.98 9.06-8.19c.39-.35-.09-.55-.61-.2l-11.2 7.05-4.82-1.5c-1.05-.33-1.07-1.05.22-1.56L19.7 3.11c.88-.33 1.64.2 1.74 1.6Z"/>
     </svg>
   `;
 }

@@ -119,6 +119,17 @@ function ensureUrl(value, fieldName) {
   return parsed.toString();
 }
 
+function ensureNostrUrl(value, fieldName) {
+  const trimmed = value.trim();
+  const match = trimmed.match(/^(?:nostr:)?((?:npub|nprofile)1[023456789acdefghjklmnpqrstuvwxyz]+)$/i);
+
+  if (match) {
+    return `https://njump.me/${match[1].toLowerCase()}`;
+  }
+
+  return ensureUrl(trimmed, fieldName);
+}
+
 function ensureCategories(value) {
   const source = Array.isArray(value)
     ? value
@@ -155,6 +166,7 @@ function buildIssuePayload(data) {
 - **GitHub:** ${data.github || "N/A"}
 - **Autor:** ${data.author || "N/A"}
 - **X:** ${data.x || "N/A"}
+- **Telegram:** ${data.telegram || "N/A"}
 - **Nostr:** ${data.nostr || "N/A"}
 - **Gratuito:** ${data.free ? "Sí" : "No"}
 - **Open Source:** ${data.openSource ? "Sí" : "No"}
@@ -206,6 +218,7 @@ function validatePayload(payload) {
   const github = optionalString(payload.github, 300);
   const author = optionalString(payload.author, 80);
   const x = optionalString(payload.x, 300);
+  const telegram = optionalString(payload.telegram, 300);
   const nostr = optionalString(payload.nostr, 300);
   const language = ensureString(payload.language, "Idioma", 20);
   const free = ensureBoolean(payload.free, "Gratuito");
@@ -223,7 +236,8 @@ function validatePayload(payload) {
     github: github ? ensureUrl(github, "GitHub") : "",
     author,
     x: x ? ensureUrl(x, "X") : "",
-    nostr: nostr ? ensureUrl(nostr, "Nostr") : "",
+    telegram: telegram ? ensureUrl(telegram, "Telegram") : "",
+    nostr: nostr ? ensureNostrUrl(nostr, "Nostr") : "",
     language,
     free,
     openSource

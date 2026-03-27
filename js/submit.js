@@ -38,6 +38,18 @@ function normalizeUrlInput(value) {
   return trimmed;
 }
 
+function normalizeNostrInput(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+
+  const match = trimmed.match(/^(?:nostr:)?((?:npub|nprofile)1[023456789acdefghjklmnpqrstuvwxyz]+)$/i);
+  if (match) {
+    return `https://njump.me/${match[1].toLowerCase()}`;
+  }
+
+  return normalizeUrlInput(trimmed);
+}
+
 function isValidURL(str) {
   try {
     const parsed = new URL(normalizeUrlInput(str));
@@ -114,12 +126,14 @@ function getSelectedCategories() {
 }
 
 function initUrlNormalization() {
-  ["proj-url", "proj-github", "proj-x", "proj-nostr"].forEach(fieldId => {
+  ["proj-url", "proj-github", "proj-x", "proj-telegram", "proj-nostr"].forEach(fieldId => {
     const field = document.getElementById(fieldId);
     if (!field) return;
 
     field.addEventListener("blur", () => {
-      const normalized = normalizeUrlInput(field.value);
+      const normalized = fieldId === "proj-nostr"
+        ? normalizeNostrInput(field.value)
+        : normalizeUrlInput(field.value);
       if (normalized) {
         field.value = normalized;
       }
@@ -165,6 +179,7 @@ function initForm() {
     const urlField = document.getElementById("proj-url");
     const githubField = document.getElementById("proj-github");
     const xField = document.getElementById("proj-x");
+    const telegramField = document.getElementById("proj-telegram");
     const nostrField = document.getElementById("proj-nostr");
     const url = normalizeUrlInput(urlField.value);
     const desc = document.getElementById("proj-desc").value.trim();
@@ -172,7 +187,8 @@ function initForm() {
     const github = normalizeUrlInput(githubField.value);
     const author = document.getElementById("proj-author").value.trim();
     const x = normalizeUrlInput(xField.value);
-    const nostr = normalizeUrlInput(nostrField.value);
+    const telegram = normalizeUrlInput(telegramField.value);
+    const nostr = normalizeNostrInput(nostrField.value);
     const lang = document.getElementById("proj-lang").value;
     const free = document.getElementById("proj-free").checked;
     const oss = document.getElementById("proj-oss").checked;
@@ -180,6 +196,7 @@ function initForm() {
     urlField.value = url;
     githubField.value = github;
     xField.value = x;
+    telegramField.value = telegram;
     nostrField.value = nostr;
 
     let valid = true;
@@ -213,8 +230,12 @@ function initForm() {
       showError("proj-x", "Introduce una URL de X válida.");
       valid = false;
     }
+    if (telegram && !isValidURL(telegram)) {
+      showError("proj-telegram", "Introduce una URL de Telegram válida.");
+      valid = false;
+    }
     if (nostr && !isValidURL(nostr)) {
-      showError("proj-nostr", "Introduce una URL de Nostr válida.");
+      showError("proj-nostr", "Introduce un perfil Nostr válido (URL, npub o nprofile).");
       valid = false;
     }
     if (!valid) return;
@@ -232,6 +253,7 @@ function initForm() {
         github,
         author,
         x,
+        telegram,
         nostr,
         free,
         openSource: oss,
