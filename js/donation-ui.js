@@ -7,14 +7,12 @@ function getTextContent(id) {
 
 function getDonationValues() {
   const bolt12Offer = getTextContent("bolt12-offer-value");
-  const lightningAddress = getTextContent("lightning-address-value");
   const onchainAddress = getTextContent("onchain-address-value");
   const nostrNip05 = getTextContent("nostr-nip05-value");
 
   return {
     bolt12Offer,
     bolt12Uri: bolt12Offer ? `bitcoin:?lno=${bolt12Offer}` : "",
-    lightningAddress,
     onchainAddress,
     nostrNip05
   };

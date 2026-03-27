@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Donar — Directorio BTC</title>
-  <meta name="description" content="Apoya con sats el mantenimiento del Directorio BTC. Aceptamos Lightning, BOLT12 y on-chain.">
+  <meta name="description" content="Apoya con sats el mantenimiento del Directorio BTC con una donacion Lightning basada en BOLT12 y respaldo on-chain.">
 
   <meta property="og:title" content="Donar — Directorio BTC">
   <meta property="og:description" content="Apoya con sats el mantenimiento del directorio abierto de proyectos Bitcoin.">
@@ -43,7 +43,7 @@
   <div class="page-header page-header-donation">
     <span class="page-kicker">Sostener el directorio</span>
     <h1>Donar con <span class="accent">Bitcoin</span></h1>
-    <p>Priorizamos Lightning moderno para mantener comisiones bajas y una experiencia simple. On-chain sigue disponible como respaldo universal.</p>
+    <p>Priorizamos Lightning moderno con BOLT12 para mantener comisiones bajas y una experiencia simple. On-chain sigue disponible como respaldo universal.</p>
   </div>
 
   <!-- CONTENT -->
@@ -54,7 +54,7 @@
       <div class="donation-hero-copy">
         <span class="donation-pill">Metodo principal</span>
         <h2 id="donation-primary-title">Bolt12 reutilizable</h2>
-        <p>Este es el formato que queremos priorizar para Lightning. Escanea el QR, abre el enlace en tu wallet o copia la oferta si tu app prefiere pegarla manualmente.</p>
+        <p>Este es el formato que queremos priorizar para Lightning. Escanea el QR, abre el enlace en tu wallet o copia el codigo BOLT12 si tu app prefiere pegarlo manualmente.</p>
 
         <div class="donation-chip-row" aria-label="Ventajas del metodo principal">
           <span class="donation-chip">Lightning</span>
@@ -64,20 +64,20 @@
 
         <div class="copy-row donation-offer-row">
           <code id="bolt12-offer-value">lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878syhxgefxqe6tpwem3qz2ckm4u58wzf0qttasfff6vxuts6rev004cqgpz0p5gc4pp7k6e5czwtvn6aapuz3npjgp3t28n9wvh2xqxry959csqx0qy5trzw3qxfjmh0qd89zh4c3e8ympajkug7qsty7xhtqwyfj2syhhajpldvh8e9xwhxs4snjcdq883uteq96zmy7w6stwsjx9szxuj47u89cl6mwx9cu0xg2c245wztw476ul8qqerp5w6dulw6yshx95qjw7lerqanqfxkh0ahxfqp9qya57nydsspfy47ud6eju2djdlwpyf9qvlfc6z6guq</code>
-          <button class="btn-copy" type="button" data-copy-target="bolt12-offer-value">Copiar oferta</button>
+          <button class="btn-copy" type="button" data-copy-target="bolt12-offer-value" aria-label="Copiar oferta BOLT12 reutilizable">Copiar oferta</button>
         </div>
 
         <div class="donation-action-row">
-          <a class="btn-copy btn-copy-link" id="bolt12-open-link" href="#" target="_self" rel="nofollow">Abrir wallet</a>
-          <button class="btn-copy" type="button" data-copy-generated="bolt12-uri">Copiar Bitcoin URI</button>
+          <a class="btn-copy btn-copy-link" id="bolt12-open-link" href="#" target="_self" rel="nofollow" aria-label="Abrir wallet con la URI de donacion BOLT12">Abrir wallet</a>
+          <button class="btn-copy" type="button" data-copy-generated="bolt12-uri" aria-label="Copiar URI completa de pago BOLT12">Copiar Bitcoin URI</button>
         </div>
 
-        <p class="donation-inline-note">El QR usa un <code>bitcoin:?lno=...</code> para mejorar la deteccion en wallets que entienden Bolt12 a traves de Bitcoin URI.</p>
+        <p class="donation-inline-note">El QR y el enlace usan la URI <code>bitcoin:?lno=...</code> para abrir la donacion desde wallets compatibles con BOLT12.</p>
 
         <ul class="donation-checklist">
-          <li>Usa este QR si tu wallet soporta Bolt12 o el parametro <code>lno=</code>.</li>
-          <li>Si tu wallet no lo detecta, copia la oferta directamente o pasa al metodo on-chain.</li>
-          <li>La Lightning Address queda como opcion secundaria porque la compatibilidad entre wallets sigue siendo desigual.</li>
+          <li>Escanea con una wallet Lightning compatible con BOLT12.</li>
+          <li>Si tu wallet no abre el enlace, copia manualmente el codigo BOLT12.</li>
+          <li>Si tu app todavia no soporta BOLT12, usa el metodo on-chain como respaldo.</li>
         </ul>
       </div>
 
@@ -100,7 +100,7 @@
 
         <div class="donation-tip-card">
           <h3>Compatibilidad</h3>
-          <p>Phoenix, Zeus y otras wallets recientes suelen manejarlo mejor. Si una app antigua no reconoce este metodo, usa la direccion on-chain o pideme una invoice puntual por otro canal.</p>
+          <p>Esta implementacion esta pensada para wallets con soporte BOLT12. La compatibilidad aun depende de que la wallet emisora entienda el formato o la URI <code>bitcoin:?lno=...</code>.</p>
         </div>
       </div>
     </section>
@@ -112,20 +112,9 @@
         <p>Si prefieres la red principal de Bitcoin, esta es la direccion publica del proyecto. La dejamos como fallback para maxima compatibilidad.</p>
         <div class="copy-row">
           <code id="onchain-address-value">bc1qqqnmg5yfxjyskqamyvwu3l33dtcjhrq6reuwxj</code>
-          <button class="btn-copy" type="button" data-copy-target="onchain-address-value">Copiar direccion</button>
+          <button class="btn-copy" type="button" data-copy-target="onchain-address-value" aria-label="Copiar direccion Bitcoin on-chain">Copiar direccion</button>
         </div>
         <p class="donation-inline-note">Si puedes elegir, Lightning sigue siendo mejor para privacidad, coste y velocidad.</p>
-      </section>
-
-      <section class="donation-method-card donation-method-card-muted" aria-labelledby="donation-lnaddr-title">
-        <span class="donation-card-kicker">Metodo secundario</span>
-        <h2 id="donation-lnaddr-title">@ Lightning Address</h2>
-        <p>La mantenemos visible para wallets compatibles, pero no es el metodo principal porque algunas apps no soportan bien las Phoenix Addresses.</p>
-        <div class="copy-row">
-          <code id="lightning-address-value">applealpaca64@phoenixwallet.me</code>
-          <button class="btn-copy" type="button" data-copy-target="lightning-address-value">Copiar address</button>
-        </div>
-        <p class="donation-inline-note">Si ves errores al pagarla, vuelve al QR Bolt12 o usa on-chain.</p>
       </section>
 
       <section class="donation-method-card" aria-labelledby="donation-nostr-title">
@@ -134,7 +123,7 @@
         <p>Tambien puedes encontrarnos en Nostr para seguir el proyecto y enviar zaps al perfil del maintainer.</p>
         <div class="copy-row">
           <code id="nostr-nip05-value">voidhash@nostr.lol</code>
-          <button class="btn-copy" type="button" data-copy-target="nostr-nip05-value">Copiar NIP-05</button>
+          <button class="btn-copy" type="button" data-copy-target="nostr-nip05-value" aria-label="Copiar NIP-05 de Nostr">Copiar NIP-05</button>
         </div>
         <a class="btn-copy btn-copy-link donation-link" href="https://njump.me/voidhash@nostr.lol" target="_blank" rel="noopener">Ver perfil en Nostr</a>
       </section>
@@ -149,6 +138,6 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="js/donation-ui.js?v=20260327a"></script>
+  <script src="js/donation-ui.js?v=20260327b"></script>
 </body>
 </html>
