@@ -192,5 +192,24 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-03-26"
+  },
+  {
+    "id": "011",
+    "name": "Tienda de Equipos de Minería",
+    "description": "Tienda de venta de equipos de minería del creador de contenido Marcos Reviews.",
+    "url": "https://www.startminingnow.es/",
+    "categories": [
+      "mineria"
+    ],
+    "tags": [],
+    "author": "Marcos Reviews",
+    "x": "https://x.com/MarcosReviews",
+    "telegram": "",
+    "nostr": "",
+    "language": "es",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-03-27"
   }
 ]
