@@ -178,14 +178,14 @@
   {
     "id": "010",
     "name": "Btc Market",
-    "description": "Comprar subscripciones y servicios con Bitcoin (y a mejores precios 😏)",
+    "description": "BtcMarket es una plataforma donde puedes adquirir subscripciones, cuentas, y productos digitales pagando con Bitcoin.",
     "url": "https://btcmarket.cc/",
     "categories": [
       "otro"
     ],
     "tags": [],
-    "author": "Telegram: @CryptoValenciaES",
-    "x": "",
+    "author": "Btc Market",
+    "x": "https://x.com/btcmarket_cc ",
     "nostr": "",
     "language": "es",
     "free": true,
