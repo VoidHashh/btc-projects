@@ -40,89 +40,106 @@
   </div>
 
   <!-- PAGE HEADER -->
-  <div class="page-header">
-    <h1>Apoya este <span class="accent">directorio</span></h1>
-    <p>Este directorio es gratuito, abierto y sin publicidad. Si te resulta útil, puedes apoyar su mantenimiento con una donación en sats.</p>
+  <div class="page-header page-header-donation">
+    <span class="page-kicker">Sostener el directorio</span>
+    <h1>Donar con <span class="accent">Bitcoin</span></h1>
+    <p>Priorizamos Lightning moderno para mantener comisiones bajas y una experiencia simple. On-chain sigue disponible como respaldo universal.</p>
   </div>
 
   <!-- CONTENT -->
-  <div class="page-content">
-    <div
-      class="info-section hidden"
-      id="donate-thanks"
-      aria-live="polite"
-      style="border-color:rgba(247,147,26,0.28);background:linear-gradient(180deg,rgba(247,147,26,0.08),rgba(247,147,26,0.03));"
-    ></div>
+  <main class="page-content donation-page" id="donation-page">
+    <div class="donation-banner hidden" id="donate-thanks" aria-live="polite"></div>
 
-    <!-- LIGHTNING (recomendado) -->
-    <div class="info-section">
-      <h2>⚡ Lightning (recomendado)</h2>
-      <p>La forma más rápida, barata y privada de enviar sats. Sin intermediarios.</p>
+    <section class="donation-hero-card" aria-labelledby="donation-primary-title">
+      <div class="donation-hero-copy">
+        <span class="donation-pill">Metodo principal</span>
+        <h2 id="donation-primary-title">Bolt12 reutilizable</h2>
+        <p>Este es el formato que queremos priorizar para Lightning. Escanea el QR, abre el enlace en tu wallet o copia la oferta si tu app prefiere pegarla manualmente.</p>
 
-      <div class="donate-block">
-        <h3>Lightning Address</h3>
-        <p class="donate-label">Envía sats directamente desde cualquier wallet compatible con Lightning Address:</p>
-        <div class="copy-row">
-          <code>applealpaca64@phoenixwallet.me</code>
-          <button class="btn-copy" data-copy="applealpaca64@phoenixwallet.me">Copiar</button>
+        <div class="donation-chip-row" aria-label="Ventajas del metodo principal">
+          <span class="donation-chip">Lightning</span>
+          <span class="donation-chip">Reutilizable</span>
+          <span class="donation-chip">Bajas comisiones</span>
         </div>
+
+        <div class="copy-row donation-offer-row">
+          <code id="bolt12-offer-value">lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878syhxgefxqe6tpwem3qz2ckm4u58wzf0qttasfff6vxuts6rev004cqgpz0p5gc4pp7k6e5czwtvn6aapuz3npjgp3t28n9wvh2xqxry959csqx0qy5trzw3qxfjmh0qd89zh4c3e8ympajkug7qsty7xhtqwyfj2syhhajpldvh8e9xwhxs4snjcdq883uteq96zmy7w6stwsjx9szxuj47u89cl6mwx9cu0xg2c245wztw476ul8qqerp5w6dulw6yshx95qjw7lerqanqfxkh0ahxfqp9qya57nydsspfy47ud6eju2djdlwpyf9qvlfc6z6guq</code>
+          <button class="btn-copy" type="button" data-copy-target="bolt12-offer-value">Copiar oferta</button>
+        </div>
+
+        <div class="donation-action-row">
+          <a class="btn-copy btn-copy-link" id="bolt12-open-link" href="#" target="_self" rel="nofollow">Abrir wallet</a>
+          <button class="btn-copy" type="button" data-copy-generated="bolt12-uri">Copiar Bitcoin URI</button>
+        </div>
+
+        <p class="donation-inline-note">El QR usa un <code>bitcoin:?lno=...</code> para mejorar la deteccion en wallets que entienden Bolt12 a traves de Bitcoin URI.</p>
+
+        <ul class="donation-checklist">
+          <li>Usa este QR si tu wallet soporta Bolt12 o el parametro <code>lno=</code>.</li>
+          <li>Si tu wallet no lo detecta, copia la oferta directamente o pasa al metodo on-chain.</li>
+          <li>La Lightning Address queda como opcion secundaria porque la compatibilidad entre wallets sigue siendo desigual.</li>
+        </ul>
       </div>
 
-      <div class="donate-block">
-        <h3>BOLT12 Offer</h3>
-        <p class="donate-label">Si tu wallet soporta BOLT12 (Phoenix, Core Lightning, etc.):</p>
-        <div class="donation-qr-card">
+      <div class="donation-qr-panel">
+        <div class="donation-qr-card donation-qr-card-featured">
           <div class="donation-qr-frame">
             <div
               class="donation-qr"
-              data-qr-value="lightning:lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878s85p4demrjltmy3axsgfdp8zse2xjsv7gq8d2u5yy2sffraqnlurqqgp5vl09rcaykeh35gf3f3q5t98ztzh02wvy2jcpzh47q68k9nq97tcqxduy3a6l6rfdkjetndksasc3xv76arqwc83azxegd9see6625r6am9tfx2x7r73tfxd5v3x6rgq6xer4nu7sy4rw9x6f9vthw56whqnyendx8m8kfau9ren78y5s9vcvkeh9cd35qqev8rs9ds5qt0w0t8nu0ju3wedlktsjw33zu54mhszy8a04njza3zppnr549u85n8yslqgvjxa7chgygrwq"
-              data-qr-size="208"
-              data-qr-label="Codigo QR de la oferta BOLT12"
+              id="bolt12-qr"
+              data-qr-size="228"
+              data-qr-source="bolt12-uri"
+              data-qr-fallback-source="bolt12-offer"
+              data-qr-label="Codigo QR para donar por Lightning con Bolt12"
               role="img"
-              aria-label="Codigo QR de la oferta BOLT12"
+              aria-label="Codigo QR para donar por Lightning con Bolt12"
             ></div>
           </div>
-          <p class="donation-qr-caption">Escanealo con tu wallet Lightning si soporta BOLT12.</p>
+          <p class="donation-qr-caption">Escanealo desde una wallet Lightning moderna. Si no abre bien, usa el boton de copiar.</p>
         </div>
-        <div class="copy-row">
-          <code>lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878s85p4demrjltmy3axsgfdp8zse2xjsv7gq8d2u5yy2sffraqnlurqqgp5vl09rcaykeh35gf3f3q5t98ztzh02wvy2jcpzh47q68k9nq97tcqxduy3a6l6rfdkjetndksasc3xv76arqwc83azxegd9see6625r6am9tfx2x7r73tfxd5v3x6rgq6xer4nu7sy4rw9x6f9vthw56whqnyendx8m8kfau9ren78y5s9vcvkeh9cd35qqev8rs9ds5qt0w0t8nu0ju3wedlktsjw33zu54mhszy8a04njza3zppnr549u85n8yslqgvjxa7chgygrwq</code>
-          <button class="btn-copy" data-copy="lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878s85p4demrjltmy3axsgfdp8zse2xjsv7gq8d2u5yy2sffraqnlurqqgp5vl09rcaykeh35gf3f3q5t98ztzh02wvy2jcpzh47q68k9nq97tcqxduy3a6l6rfdkjetndksasc3xv76arqwc83azxegd9see6625r6am9tfx2x7r73tfxd5v3x6rgq6xer4nu7sy4rw9x6f9vthw56whqnyendx8m8kfau9ren78y5s9vcvkeh9cd35qqev8rs9ds5qt0w0t8nu0ju3wedlktsjw33zu54mhszy8a04njza3zppnr549u85n8yslqgvjxa7chgygrwq">Copiar</button>
-        </div>
-      </div>
-    </div>
 
-    <!-- ON-CHAIN -->
-    <div class="info-section">
-      <h2>⛓️ On-chain</h2>
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Por privacidad y eficiencia, preferimos donaciones vía Lightning. Pero si necesitas usar on-chain:</p>
-
-      <div class="donate-block">
-        <h3>Dirección Bitcoin</h3>
-        <div class="copy-row">
-          <code>bc1qqqnmg5yfxjyskqamyvwu3l33dtcjhrq6reuwxj</code>
-          <button class="btn-copy" data-copy="bc1qqqnmg5yfxjyskqamyvwu3l33dtcjhrq6reuwxj">Copiar</button>
+        <div class="donation-tip-card">
+          <h3>Compatibilidad</h3>
+          <p>Phoenix, Zeus y otras wallets recientes suelen manejarlo mejor. Si una app antigua no reconoce este metodo, usa la direccion on-chain o pideme una invoice puntual por otro canal.</p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- NOSTR -->
-    <div class="info-section">
-      <h2>🟣 Nostr</h2>
-      <p>También puedes encontrarnos en Nostr y enviar zaps:</p>
-
-      <div class="donate-block">
-        <h3>NIP-05</h3>
+    <div class="donation-method-grid">
+      <section class="donation-method-card" aria-labelledby="donation-onchain-title">
+        <span class="donation-card-kicker">Respaldo universal</span>
+        <h2 id="donation-onchain-title">⛓️ On-chain</h2>
+        <p>Si prefieres la red principal de Bitcoin, esta es la direccion publica del proyecto. La dejamos como fallback para maxima compatibilidad.</p>
         <div class="copy-row">
-          <code>voidhash@nostr.lol</code>
-          <button class="btn-copy" data-copy="voidhash@nostr.lol">Copiar</button>
+          <code id="onchain-address-value">bc1qqqnmg5yfxjyskqamyvwu3l33dtcjhrq6reuwxj</code>
+          <button class="btn-copy" type="button" data-copy-target="onchain-address-value">Copiar direccion</button>
         </div>
-        <p class="donate-label" style="margin-top:10px;">
-          <a href="https://njump.me/voidhash@nostr.lol" target="_blank" rel="noopener">Ver perfil en Nostr →</a>
-        </p>
-      </div>
-    </div>
+        <p class="donation-inline-note">Si puedes elegir, Lightning sigue siendo mejor para privacidad, coste y velocidad.</p>
+      </section>
 
-  </div>
+      <section class="donation-method-card donation-method-card-muted" aria-labelledby="donation-lnaddr-title">
+        <span class="donation-card-kicker">Metodo secundario</span>
+        <h2 id="donation-lnaddr-title">@ Lightning Address</h2>
+        <p>La mantenemos visible para wallets compatibles, pero no es el metodo principal porque algunas apps no soportan bien las Phoenix Addresses.</p>
+        <div class="copy-row">
+          <code id="lightning-address-value">applealpaca64@phoenixwallet.me</code>
+          <button class="btn-copy" type="button" data-copy-target="lightning-address-value">Copiar address</button>
+        </div>
+        <p class="donation-inline-note">Si ves errores al pagarla, vuelve al QR Bolt12 o usa on-chain.</p>
+      </section>
+
+      <section class="donation-method-card" aria-labelledby="donation-nostr-title">
+        <span class="donation-card-kicker">Social + zaps</span>
+        <h2 id="donation-nostr-title">🟣 Nostr</h2>
+        <p>Tambien puedes encontrarnos en Nostr para seguir el proyecto y enviar zaps al perfil del maintainer.</p>
+        <div class="copy-row">
+          <code id="nostr-nip05-value">voidhash@nostr.lol</code>
+          <button class="btn-copy" type="button" data-copy-target="nostr-nip05-value">Copiar NIP-05</button>
+        </div>
+        <a class="btn-copy btn-copy-link donation-link" href="https://njump.me/voidhash@nostr.lol" target="_blank" rel="noopener">Ver perfil en Nostr</a>
+      </section>
+    </div>
+  </main>
 
   <!-- FOOTER -->
   <footer>
@@ -132,45 +149,6 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="js/donation-ui.js?v=20260324h"></script>
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("from") === "submit") {
-      const thanks = document.getElementById("donate-thanks");
-      const project = params.get("project");
-      const issue = params.get("issue");
-      const title = document.createElement("h2");
-      const text = document.createElement("p");
-
-      title.textContent = "Gracias por contribuir";
-      if (project && issue) {
-        text.textContent = `Tu proyecto "${project}" ya se ha enviado para revisión como issue #${issue}. Si te apetece apoyar el directorio, puedes dejar unos sats aquí.`;
-      } else if (project) {
-        text.textContent = `Tu proyecto "${project}" ya se ha enviado para revisión. Si te apetece apoyar el directorio, puedes dejar unos sats aquí.`;
-      } else {
-        text.textContent = "Tu proyecto ya se ha enviado para revisión. Si te apetece apoyar el directorio, puedes dejar unos sats aquí.";
-      }
-
-      thanks.append(title, text);
-      thanks.classList.remove("hidden");
-      window.history.replaceState({}, document.title, "donar.html");
-    }
-
-    // Hamburger
-    document.getElementById("hamburger").addEventListener("click", () => {
-      document.getElementById("mobile-menu").classList.toggle("open");
-    });
-    // Copy buttons
-    document.querySelectorAll(".btn-copy[data-copy]").forEach(btn => {
-      btn.addEventListener("click", async () => {
-        try { await navigator.clipboard.writeText(btn.dataset.copy); }
-        catch { const ta = document.createElement("textarea"); ta.value = btn.dataset.copy; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); }
-        const orig = btn.textContent;
-        btn.textContent = "¡Copiado!";
-        btn.classList.add("copied");
-        setTimeout(() => { btn.textContent = orig; btn.classList.remove("copied"); }, 2000);
-      });
-    });
-  </script>
+  <script src="js/donation-ui.js?v=20260327a"></script>
 </body>
 </html>
