@@ -231,5 +231,25 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-03-27"
+  },
+  {
+    "id": "013",
+    "name": "Centinela Bitcoin",
+    "description": "Centinela monitoriza señales del mercado Bitcoin en tiempo real y avisa cuando hay pánico real. No es para traders, sino para acumuladores: detecta momentos donde el miedo domina y comprar tiene sentido. Sin ruido. Sin coste. Solo señal cuando importa.",
+    "url": "https://centinela.bitacorabitcoin.com/",
+    "categories": [
+      "metricas-analytics",
+      "educacion"
+    ],
+    "tags": [],
+    "author": "CentinelaBTC",
+    "x": "",
+    "telegram": "https://t.me/CentinelaBTC",
+    "nostr": "",
+    "language": "es",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-04-27"
   }
 ]
