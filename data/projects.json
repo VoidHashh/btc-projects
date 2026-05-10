@@ -251,5 +251,25 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-04-27"
+  },
+  {
+    "id": "014",
+    "name": "Newsletter CriptoATH",
+    "description": "Análisis on-chain de bitcoin con rigor institucional. Para inversores que quieren incorporar bitcoin en cartera y quieren saber más.",
+    "url": "https://criptoath.substack.com/",
+    "categories": [
+      "metricas-analytics",
+      "educacion"
+    ],
+    "tags": [],
+    "author": "",
+    "x": "https://x.com/CriptoATH",
+    "telegram": "",
+    "nostr": "",
+    "language": "es",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-05-10"
   }
 ]
