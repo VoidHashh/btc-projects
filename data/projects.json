@@ -251,5 +251,24 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-04-27"
+  },
+  {
+    "id": "014",
+    "name": "Chart Inspect",
+    "description": "Plataforma de análisis on-chain muy completa para Bitcoin y algunas altcoins.",
+    "url": "https://chartinspect.com/",
+    "categories": [
+      "metricas-analytics"
+    ],
+    "tags": [],
+    "author": "",
+    "x": "",
+    "telegram": "",
+    "nostr": "",
+    "language": "en",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-05-10"
   }
 ]
