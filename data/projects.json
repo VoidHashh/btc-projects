@@ -254,6 +254,19 @@
   },
   {
     "id": "014",
+    "name": "Newsletter CriptoATH",
+    "description": "Análisis on-chain de bitcoin con rigor institucional. Para inversores que quieren incorporar bitcoin en cartera y quieren saber más.",
+    "url": "https://criptoath.substack.com/",
+    "categories": [
+      "metricas-analytics",
+      "educacion"
+    ],
+    "tags": [],
+    "author": "",
+    "x": "https://x.com/CriptoATH",
+    "telegram": "",
+    "nostr": "",
+    "language": "es",
     "name": "Chart Inspect",
     "description": "Plataforma de análisis on-chain muy completa para Bitcoin y algunas altcoins.",
     "url": "https://chartinspect.com/",
