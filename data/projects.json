@@ -254,19 +254,6 @@
   },
   {
     "id": "014",
-    "name": "Newsletter CriptoATH",
-    "description": "Análisis on-chain de bitcoin con rigor institucional. Para inversores que quieren incorporar bitcoin en cartera y quieren saber más.",
-    "url": "https://criptoath.substack.com/",
-    "categories": [
-      "metricas-analytics",
-      "educacion"
-    ],
-    "tags": [],
-    "author": "",
-    "x": "https://x.com/CriptoATH",
-    "telegram": "",
-    "nostr": "",
-    "language": "es",
     "name": "Chart Inspect",
     "description": "Plataforma de análisis on-chain muy completa para Bitcoin y algunas altcoins.",
     "url": "https://chartinspect.com/",
@@ -283,5 +270,24 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-05-10"
+  },
+  {
+    "id": "015",
+    "name": "AskOracle",
+    "description": "El primer agente de IA conversacional especializado en Bitcoin. Habla, pregunta, aprende. En tu idioma.",
+    "url": "https://askoracle.space/",
+    "categories": [
+      "educacion"
+    ],
+    "tags": [],
+    "author": "BitcoinShagga",
+    "x": "",
+    "telegram": "",
+    "nostr": "",
+    "language": "multi",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-05-15"
   }
 ]
