@@ -289,5 +289,25 @@
     "open_source": false,
     "github": "",
     "date_added": "2026-05-15"
+  },
+  {
+    "id": "016",
+    "name": "CriptoATH | Análisis on-chain de Bitcoin",
+    "description": "Newsletter en español de análisis on-chain de Bitcoin",
+    "url": "https://criptoath.substack.com/",
+    "categories": [
+      "metricas-analytics",
+      "educacion"
+    ],
+    "tags": [],
+    "author": "",
+    "x": "",
+    "telegram": "",
+    "nostr": "",
+    "language": "es",
+    "free": true,
+    "open_source": false,
+    "github": "",
+    "date_added": "2026-05-22"
   }
 ]
